@@ -1,7 +1,17 @@
-import React, { useRef } from 'react'
+import React, { useRef ,useState} from 'react'
+import { useAuth } from '../Context/AuthContext.jsx';
 
 function WritePost() {
-    const fileInputRef = useRef(null)
+const {username} = useAuth()
+ const userId = window.localStorage.getItem("userID");
+  const [title, setTitle] = useState("");
+  const [shortDesc, setShortDesc] = useState("");
+  const [desc, setDesc] = useState("");
+  const [cat, setCat] = useState("");
+  const [image, setImage] = useState("");
+  const [user, setUser] = useState(userId);
+
+const fileInputRef = useRef(null)
 
     const handleFileClick = () => {
         fileInputRef.current.click()
@@ -21,8 +31,8 @@ function WritePost() {
                     type="file"
                     ref={fileInputRef}
                     className="hidden"
-                    onChange={(e) => {
-                        console.log('Selected file:', e.target.files[0])
+                    value={image}
+                    onChange={(e) => { setImage( e.target.files[0])
                     }}
                 />
                 <button
@@ -32,10 +42,10 @@ function WritePost() {
                 >
                     Upload Cover Image
                 </button>
-                <input type="text" placeholder="Blog Title" className="input  w-[400px] md:w-full" />
+                <input type="text" placeholder="Blog Title" className="input  w-[400px] md:w-full" value={title} onChange={(e)=>setTitle(e.target.value)} />
                 {/* <input type="text" placeholder="Slug (optional)" className="input w-full" /> */}
-                <select className="select w-[400px] md:w-full">
-                    <option disabled selected>Select Category</option>
+                <select className="select w-[400px] md:w-full" value={cat} onChange={(e)=>setCat(e.target.value)}>
+                    <option   >Select Category</option>
                     <option>All</option>
                     <option>Web Development</option>
                     <option>Development</option>
@@ -43,8 +53,8 @@ function WritePost() {
                     <option>Marketing</option>
                     <option>Databases</option>
                 </select>
-                <input type="text" placeholder="Short Description" className="input w-[400px] md:w-full" />
-                <textarea placeholder="write your blog" className="textarea w-[400px] md:w-full h-[300px]"></textarea>
+                <input type="text" placeholder="Short Description" className="input w-[400px] md:w-full" value={shortDesc} onChange={(e)=>setShortDesc(e.target.value)} />
+                <textarea placeholder="write your blog" className="textarea w-[400px] md:w-full h-[300px]" value={desc} onChange={(e)=>setDesc(e.target.value)}></textarea>
 
 
             </div>

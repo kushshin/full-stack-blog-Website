@@ -53,8 +53,8 @@ const loginUser = async(req,res,next)=>{
             const token = jwt.sign({id : user._id, email : user.email, role: user.role, username : user.username},process.env.SECRET_KEY)
     
             // res.cookie("Token",token)
-            res.cookie("Token",token,{httpOnly: true,secure:true, sameSite:'None'})
-            res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role})
+            res.cookie("Token",token)
+            res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,success :true, message : 'user loggedIn successfully!! '})
     } catch (error) {
            res.status(500).json(error , "internal server Error")
     }

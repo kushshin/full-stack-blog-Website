@@ -1,10 +1,24 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState,useEffect } from 'react'
+import { Link,useNavigate } from 'react-router-dom'
 import { IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
+import Cookie from 'js-cookie';
+import { useAuth } from '../Context/AuthContext.jsx';
+
 
 function Navbar() {
   const [open, setOpen] = useState(false)
+ const { username, logout } = useAuth();
+  
+ 
+
+    const handleLogout = () => {
+    Cookie.remove("Token");
+    window.localStorage.clear("");
+    toast.success("you have successfully loggedout");
+    navigate("/");
+
+  }
   return (
     <div className='bg-base-100 w-full md:h-16 flex items-center  justify-between px-4 '>
       {/* LOGO */}
@@ -19,10 +33,12 @@ function Navbar() {
           <div className=' flex flex-col items-center gap-8 text-[#bbbb8e] mt-4'>
             <a href="/" className='text-[#a0a05f]'>Home </a>
             <a href="">About Us</a>
-            <a href="/writePost">Write </a>
+         { username? <a href="/writePost">Write </a>:""}
             <a href="/blog">Blog </a>
             <a href="/contact">Contact</a>
-            <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>
+            {username ? 
+            <a href=""><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={logout}>Logout</button></a>:
+            <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
           </div>
         </div>
       </div>
@@ -30,12 +46,14 @@ function Navbar() {
       <div className=' hidden md:flex items-center gap-4 text-[#bbbb8e]'>
         <a href="/" className='text-[#a0a05f]'>Home </a>
         <a href="">About Us</a>
-        <a href="/writePost">Write </a>
+       { username? <a href="/writePost">Write </a>:""}
         <a href="/blog">Blog </a>
         <a href="/contact">Contact</a>
       </div>
       <div className=' hidden md:flex gap-4'>
-        <a href="/login"> <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white'>Login</button></a>
+       {username ? 
+            <a href=""><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a>:
+            <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
       </div>
     </div>
   )

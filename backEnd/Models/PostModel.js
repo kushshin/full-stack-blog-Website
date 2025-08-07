@@ -10,11 +10,15 @@ const postSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
+  Shortdesc: {
+    type: String,
+    required: true
+  },
   desc: {
     type: String,
     required: true
   },
-  photo: {
+  image: {
     type: String
   },
   username: {
@@ -41,7 +45,8 @@ const postSchema = new mongoose.Schema({
   comments: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     text: String,
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date }
   }]
 }, { timestamps: true });
 
