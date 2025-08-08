@@ -17,11 +17,6 @@ function HomePage() {
           <div className='mt-4 flex-1 mr-8'>
             <h1>All Posts</h1>
             <div><AllPosts /></div>
-            <div><AllPosts /></div>
-            <div><AllPosts /></div>
-            <div><AllPosts /></div>
-            <div><AllPosts /></div>
-            <div><AllPosts /></div>
           </div>
           {/* <div>featured post</div> */}
           <div>

@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema({
     type: String,
     unique: true
   },
-  Shortdesc: {
+  shortDesc: {
     type: String,
     required: true
   },
@@ -31,7 +31,8 @@ const postSchema = new mongoose.Schema({
     required: true
   },
   categories: {
-    type: [String]
+    type: String,
+    required: true
   },
   status: {
     type: String,
