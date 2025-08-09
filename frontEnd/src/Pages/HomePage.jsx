@@ -3,13 +3,25 @@ import bgImage from '../../public/img/bgcoverImage.jpg'
 import AllPosts from './AllPosts'
 import MainCategories from './MainCategories'
 import RecentPosts from './RecentPosts'
+import { FaFacebookSquare } from "react-icons/fa";
+import { FaInstagramSquare } from "react-icons/fa";
+import { FaSquareWhatsapp } from "react-icons/fa6";
+import { FaSquarePinterest } from "react-icons/fa6";
+import { FaSquareYoutube } from "react-icons/fa6";
 
 function HomePage() {
   return (
     <div>
       <div>
         {/* <img src="../img/coverImage1.jpg" alt="" className='p-16 '/> */}
-        <div className="bg-cover bg-center text-white  rounded h-[500px] flex flex-col items-center justify-center text-center mx-8 my-24 " style={{ backgroundImage: `url(${bgImage})` }}>
+        <div  className='flex justify-center my-6 gap-4'>
+          <FaFacebookSquare  className='text-[#bbbb8e] md:w-6 md:h-6'/>
+          <FaInstagramSquare  className='text-[#bbbb8e] md:w-6 md:h-6'/>
+          <FaSquareYoutube    className='text-[#bbbb8e] md:w-6 md:h-6'/>
+          <FaSquareWhatsapp  className='text-[#bbbb8e] md:w-6 md:h-6'/>
+          <FaSquarePinterest  className='text-[#bbbb8e] md:w-6 md:h-6'/>
+        </div>
+        <div className="bg-cover bg-center text-white  rounded h-[500px] flex flex-col items-center justify-center text-center mx-8 mb-8 " style={{ backgroundImage: `url(${bgImage})` }}>
           <h1 className='text-6xl font-bold '><span className='text-[#bbbb8e]'>T</span>e<span className='text-[#bbbb8e]'>c</span>h<span className='text-[#bbbb8e]'>n</span>o<span className='text-[#bbbb8e]'>l</span>o<span className='text-[#bbbb8e]'>g</span>y</h1> <br />
           <p>Technology refers to the application of scientific knowledge for practical purposes, enabling innovation and progress across various fields. It enhances communication, automates tasks, improves healthcare, and drives economic growth. Constantly evolving, technology shapes how we live, work, and interact, playing a vital role in modern society and future development.</p>
         </div>

@@ -1,39 +1,44 @@
-import React,{useState,useEffect} from 'react'
-import{AllPost} from '../API Services/PostAPI'
+import React,{useEffect} from 'react'
+import{useSelector,useDispatch} from 'react-redux'
+import { fetchPosts } from '../Redux/postSlice'
+import { Link } from 'react-router-dom'
+
 
 function AllPosts() {
-  const[allPosts,setAllPosts] = useState([])
+  const dispatch = useDispatch()
+  const { posts, loading, error } = useSelector((state) => state.posts);
+
 
   useEffect(()=>{
-    const getAllPosts=async()=>{
-     try {
-      const res = await AllPost()
-    setAllPosts(res.data.post)
-     } catch (error) {
-      console.log(error)
-     }
-    }
-    getAllPosts()
-  },[])
+   dispatch(fetchPosts())
+  },[dispatch])
+
+  if (loading) return <p>Loading posts...</p>;
+  if (error) return <p>Error: {error}</p>;
   return (
     <div>
-      {allPosts.map((post)=>
-        <div className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-none">
+      {posts.map((post)=>(
+        <div key={post.id} className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-none" >
   <figure>
     <img className='w-[450px] h-[350px]'
       src={post.image}
       alt="Album" />
   </figure>
   <div className="card-body">
+    <h4>Category : {post.categories}</h4>
     <h2 className="card-title">{post.title}</h2>
-    <p>{post.shortDesc}</p>
-    <p>{post.desc}</p>
+    <div className='flex gap-2 items-center'>
+    <h4 className='text-[10px] text-[#bbbb8e] '>Posted On : {new Date(post.createdAt).toLocaleDateString()}</h4><span>/</span>
+    <h5 className='text=[12px]'>BY {post.username.toUpperCase()}</h5>
+    </div>  
+    <p className='text-[32px] font-semibold'>{post.shortDesc}</p>
+    {/* <p>{post.desc}</p> */}
     <div className="card-actions justify-end">
-      <button className="btn  bg-[#bbbb8e] text-white">Read More</button>
+ <Link to ="/singlePost"> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>    
     </div>
   </div>
 </div>
-    )}
+       ) )}
     </div>
   )
 }

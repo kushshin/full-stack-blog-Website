@@ -6,6 +6,7 @@ import RegisterPage from './Pages/RegisterPage'
 import LoginPage from './Pages/LoginPage'
 import HomePage from './Pages/HomePage'
 import WritePost from './Pages/WritePost'
+import SinglePostPage from './Pages/SinglePostPage'
 import AllBlogs from './Pages/AllBlogs'
 import ContactPage from './Pages/ContactPage'
 import { ToastContainer, toast } from 'react-toastify';
@@ -28,7 +29,8 @@ function App() {
             <Route path="/register" element ={<RegisterPage/>}/>
             <Route path="/login" element ={<LoginPage/>}/>
             <Route path="/writePost" element ={<WritePost/>}/>
-            <Route path="/blog" element ={<AllBlogs/>}/>
+            <Route path="/singlePost/:id" element ={<SinglePostPage/>}/>
+            <Route path="/AllBlogs" element ={<AllBlogs/>}/>
             <Route path="/contact" element ={<ContactPage/>}/>
            </Route>
             {/* <Route path="/forgotPassword" element={<ForgotPassword/>} />

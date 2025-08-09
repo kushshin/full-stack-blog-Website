@@ -34,7 +34,7 @@ function Navbar() {
             <a href="/" className='text-[#a0a05f]'>Home </a>
             <a href="">About Us</a>
          { username? <a href="/writePost">Write </a>:""}
-            <a href="/blog">Blog </a>
+            <a href="/AllBlogs">Blog </a>
             <a href="/contact">Contact</a>
             {username ? 
             <a href=""><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={logout}>Logout</button></a>:
@@ -47,7 +47,7 @@ function Navbar() {
         <a href="/" className='text-[#a0a05f]'>Home </a>
         <a href="">About Us</a>
        { username? <a href="/writePost">Write </a>:""}
-        <a href="/blog">Blog </a>
+        <a href="/AllBlogs">Blog </a>
         <a href="/contact">Contact</a>
       </div>
       <div className=' hidden md:flex gap-4'>
