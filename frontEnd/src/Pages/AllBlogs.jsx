@@ -2,6 +2,9 @@ import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchPosts } from '../Redux/postSlice'
 import { Link } from 'react-router-dom'
+import { FaComment } from "react-icons/fa"
+import { IoIosHeart } from "react-icons/io";
+import { IoIosHeartEmpty } from "react-icons/io";
 
 
 
@@ -24,8 +27,8 @@ function AllBlogs() {
         </ul>
       </div>
       <div className='flex flex-wrap gap-4 justify-center'>
-        {posts.map((post) => (
-          <div key={post.id} className="card bg-base-100 shadow-sm mt-4 mb-4 rounded-none w-[400px] h-[600px] flex" >
+        {posts.map((post,id) => (
+          <div key={id} className="card bg-base-100 shadow-sm mt-4 mb-4 rounded-none w-[400px] h-[600px] flex" >
             <figure>
               <img className='w-full h-full object-cover'
                 src={post.image}
@@ -39,7 +42,12 @@ function AllBlogs() {
                 <h5 className='text=[12px]'>BY {post.username.toUpperCase()}</h5>
               </div>
               <p>{post.shortDesc}</p>
-              {/* <p>{post.desc}</p> */}
+              <div className='flex items-center gap-1'>
+                 <FaComment /> 
+              <p>{post.comments.length}</p>
+              <div className='text-red-700'><IoIosHeart /></div>:
+        <div ><IoIosHeartEmpty /></div>
+              </div>
               <div className="card-actions justify-end">
                 <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>
               </div>

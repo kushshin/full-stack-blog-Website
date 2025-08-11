@@ -2,9 +2,11 @@ import React,{useEffect} from 'react'
 import{useSelector,useDispatch} from 'react-redux'
 import { fetchPosts } from '../Redux/postSlice'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../Context/AuthContext.jsx';
 
 
 function AllPosts() {
+  const {username} = useAuth()
   const dispatch = useDispatch()
   const { posts, loading, error } = useSelector((state) => state.posts);
 
@@ -34,7 +36,7 @@ function AllPosts() {
     <p className='text-[32px] font-semibold'>{post.shortDesc}</p>
     {/* <p>{post.desc}</p> */}
     <div className="card-actions justify-end">
- <Link to ="/singlePost"> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>    
+{username ? <Link to ={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link> : <button className="btn  bg-[#bbbb8e] text-white" onClick={()=>alert("please login to read blog")}>Read More</button>}
     </div>
   </div>
 </div>

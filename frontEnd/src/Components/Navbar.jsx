@@ -9,10 +9,11 @@ import { useAuth } from '../Context/AuthContext.jsx';
 function Navbar() {
   const [open, setOpen] = useState(false)
  const { username, logout } = useAuth();
-  
+  const navigate = useNavigate()
  
 
     const handleLogout = () => {
+      // logout()
     Cookie.remove("Token");
     window.localStorage.clear("");
     toast.success("you have successfully loggedout");
@@ -37,7 +38,7 @@ function Navbar() {
             <a href="/AllBlogs">Blog </a>
             <a href="/contact">Contact</a>
             {username ? 
-            <a href=""><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={logout}>Logout</button></a>:
+            <a href="/"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a>:
             <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
           </div>
         </div>
@@ -52,7 +53,7 @@ function Navbar() {
       </div>
       <div className=' hidden md:flex gap-4'>
        {username ? 
-            <a href=""><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a>:
+            <a href="/"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a>:
             <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
       </div>
     </div>

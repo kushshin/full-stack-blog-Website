@@ -7,7 +7,7 @@ import {AllPost} from '../API Services/PostAPI'
 export const fetchPosts = createAsyncThunk("post/AllPost", async () => {
   const response = await AllPost();
 //   const response = await axios.get('http://localhost:3001/api/post/AllPost');
-  console.log(response.data.post)
+  // console.log(response.data.post)
   return response.data.post;
 });
 

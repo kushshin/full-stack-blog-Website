@@ -9,3 +9,5 @@ const API = axios.create({
 //Post API
 export const createPost = (userData)=> API.post("/post/createPost",userData)
 export const AllPost = ()=> API.get("/post/AllPost")
+export const AddComments=(commentData,postId)=>API.post(`/post/addComment/${postId}`,commentData)
+export const DeleteComments=(postId,commentId)=>API.delete(`/post/${postId}/deleteComment/${commentId}`)

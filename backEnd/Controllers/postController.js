@@ -40,4 +40,31 @@ const AllPost = async(req,res,next)=>{
     }
 }
 
-export{createPost,AllPost}
+const AddComments = async(req,res,next)=>{
+    console.log(req.body)
+    const comment = {
+        text: req.body.text,
+        username: req.body.username,
+        user:req.body.user
+    }
+    try {
+         const addComment = await PostModel.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, { new: true })
+         res.status(200).json({success:true, message:"commented successfully", comment:addComment})
+    } catch (error) {
+        next(new ErrorResponse('failed to post comment',500))
+    }
+}
+
+
+const DeleteComments = async(req,res,next)=>{
+    console.log({id:req.params})
+
+    try {
+         const deleteComment = await PostModel.findByIdAndUpdate(req.params.postId, { $pull: {comments:{ _id: req.params.commentId } }}, { new: true })
+         res.status(200).json({success:true, message:"commented deleted successfully", comment: deleteComment})
+    } catch (error) {
+        next(new ErrorResponse('failed to delete comment',500))
+    }
+}
+
+export{createPost,AllPost,AddComments,DeleteComments}
