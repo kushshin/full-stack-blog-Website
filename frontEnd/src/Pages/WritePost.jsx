@@ -1,12 +1,16 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../Context/AuthContext.jsx';
-import { createPost } from '../API Services/PostAPI.js';
-import { useNavigate } from 'react-router-dom';
-import { toast,Bounce  } from 'react-toastify'
+import { createPost, SinglePost ,updatePost} from '../API Services/PostAPI.js';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { toast, Bounce } from 'react-toastify'
 
 function WritePost() {
     const { username } = useAuth()
     const userId = window.localStorage.getItem("userID");
+    const location = useLocation()
+const id = location.state?.id || null;
+const postID = id
+// console.log(postID)
 
     const [title, setTitle] = useState("");
     const [shortDesc, setShortDesc] = useState("");
@@ -14,12 +18,61 @@ function WritePost() {
     const [category, setCategory] = useState("");
     const [image, setImage] = useState("");
     const [user, setUser] = useState(userId);
-  
+    const [preview, setPreview] = useState("");
+
     const fileInputRef = useRef(null)
     const navigate = useNavigate()
 
     const handleFileClick = () => {
         fileInputRef.current.click()
+    }
+
+    const getSinglePost = async () => {
+        try {
+            const res = await SinglePost(id)
+            const post = (res.data.post)
+            console.log(post)
+            const imageURL = post.image  || "";
+            setPreview(imageURL)
+            setTitle(post.title || "");
+            setShortDesc(post.shortDesc || "");
+            setDesc(post.desc || "");
+            setCategory(post.category || "");
+            setUser(post.postedBy || userId);
+            // setUserName(post. || "");
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        getSinglePost()
+    }, [])
+
+    const handleEditPost = async(e)=>{
+        e.preventDefault()
+        try {            
+        const editedDetails = new FormData();
+        editedDetails.append("title", title);
+        editedDetails.append("shortDesc", shortDesc);
+        editedDetails.append("desc", desc);
+        editedDetails.append("category", category);
+        editedDetails.append("user", user)
+            editedDetails.append("username", username)
+        if (image) editedDetails.append("image", image);
+    
+        const res = await updatePost(editedDetails,postID)
+        console.log(res.data)
+                setTitle("")
+                setDesc("")
+                setShortDesc("")
+                setImage("")
+                setCategory("")
+                setPreview("")
+                navigate('/AllBlogs')
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const handlePost = async (e) => {
@@ -40,7 +93,7 @@ function WritePost() {
             setShortDesc("")
             setImage("")
             setCategory("")
-             navigate("/")
+            navigate("/")
             const msg = (res.data.message)
             if (msg) {
                 toast.success(msg, {
@@ -56,17 +109,17 @@ function WritePost() {
                 });
             }
         } catch (error) {
-             const msg = error?.response?.data?.message;
-             // setError(msg);
-             toast.error(msg, {
-               position: "top-center",
-               autoClose: 5000,
-               hideProgressBar: false,
-               closeOnClick: false,
-               pauseOnHover: true,
-               draggable: true,
-               theme: "light",
-             });
+            const msg = error?.response?.data?.message;
+            // setError(msg);
+            toast.error(msg, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                theme: "light",
+            });
         }
     }
     return (
@@ -77,15 +130,21 @@ function WritePost() {
                     <li><a>Write</a></li>
                 </ul>
             </div>
-            <form onSubmit={handlePost}>
+            <form onSubmit={postID ? handleEditPost : handlePost}>
                 <div className=' flex flex-col gap-y-4  px-12 md:px-32 py-4 text-[#a0a05f]'>
-                    <h1 className='text-center'>Create New Blog</h1>
+                    <h1 className='text-center'>{postID? "Edit Blog" : "Create New Blog"}</h1>
                     <input
                         type="file"
                         ref={fileInputRef}
                         className="hidden"
-                        onChange={(e) => setImage(e.target.files[0])
-                        }
+                     onChange={(e) => {
+    const file = e.target.files[0];
+    if (file) {
+        setImage(file);
+        setPreview(URL.createObjectURL(file));
+    }
+}}
+                        
                     />
                     <button
                         type="button"
@@ -94,6 +153,16 @@ function WritePost() {
                     >
                         Upload Cover Image
                     </button>
+                  {preview && (
+        <div className="mt-3">
+          <p>Image Preview:</p>
+          <img
+            src={preview}
+            alt="Preview"
+            style={{ width: "300px", height: "auto", borderRadius: "8px" }}
+          />
+        </div>
+      )}
                     <input type="text" placeholder="Blog Title" className="input  w-[400px] md:w-full" value={title} onChange={(e) => setTitle(e.target.value)} />
                     {/* <input type="text" placeholder="Slug (optional)" className="input w-full" /> */}
                     <select className="select w-[400px] md:w-full" value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -107,8 +176,8 @@ function WritePost() {
                     </select>
                     <input type="text" placeholder="Short Description" className="input w-[400px] md:w-full" value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} />
                     <textarea placeholder="write your blog" className="textarea w-[400px] md:w-full h-[300px]" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
-                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'>Post</button>
-
+                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'>{postID ? "UpdatePost" : "Post"}</button>
+               
                 </div>
             </form>
         </div>

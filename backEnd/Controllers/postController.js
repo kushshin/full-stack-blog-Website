@@ -8,8 +8,8 @@ import ErrorResponse from '../Middlewares/ErrorResponse.js';
 
 const createPost = async(req,res,next)=>{
     const{title,desc,shortDesc,username,category,user} = req.body
-    console.log(req.body)
-    console.log(req.file.path)
+    console.log({body:req.body})
+    console.log({path:req.file.path})
     
     try {
         const newPost = new PostModel({
@@ -25,7 +25,31 @@ console.log("Post to be saved:", newPost);
         await newPost.save()
        res.status(200).json({success :true, message : 'new post created'})  
     } catch (error) {
-      next(ErrorResponse('failed to create post',400))
+      next(new ErrorResponse('failed to create post',400))
+    }
+}
+
+//update post
+const updatePost = async(req,res,next)=>{
+    const{title,desc,shortDesc,username,category,user} = req.body
+    console.log({body:req.body})
+    console.log({path:req.file.path})
+    
+    try {
+        const editedPost = await PostModel.findByIdAndUpdate(req.params.id,{
+            title,
+            desc,
+            shortDesc,
+            image: req.file?.path,
+            categories: category,
+            username,
+            postedBy: user
+        }, { new: true } )
+console.log("Post to be saved:", editedPost);
+        await editedPost.save()
+       res.status(200).json({success :true, message : 'post updated successfully'})  
+    } catch (error) {
+      next(new ErrorResponse('failed to update post',400))
     }
 }
 
@@ -36,12 +60,39 @@ const AllPost = async(req,res,next)=>{
         const allPost = await PostModel.find()
          res.status(200).json({success :true, message : 'fetched All post successfully',post : allPost})  
     } catch (error) {
-         next(ErrorResponse('failed to fetch all posts',400))
+         next(new ErrorResponse('failed to fetch all posts',400))
+    }
+}
+
+//get single post
+
+const SinglePost=async(req,res,next)=>{
+    console.log({id:req.params.id})
+    try {
+        const singlepost = await PostModel.findById(req.params.id)
+         res.status(200).json({success :true, message : 'fetched All post successfully',post : singlepost})  
+    } catch (error) {
+         next(new ErrorResponse('failed to fetch all posts',400))
+    }
+}
+
+// delete Post
+
+const deletePost =async(req,res,next)=>{
+    try {
+        const post = await PostModel.findById(req.params.id)
+        // console.log(post.postedBy)
+        if(post.postedBy.toString() === req.user.id){
+           await PostModel.findByIdAndDelete(req.params.id)
+        }
+        res.status(200).json({success:true,message:"post deleted successfully"})
+    } catch (error) {
+        next(new ErrorResponse("failed to delete the post",400))
     }
 }
 
 const AddComments = async(req,res,next)=>{
-    console.log(req.body)
+    // console.log(req.body)
     const comment = {
         text: req.body.text,
         username: req.body.username,
@@ -57,7 +108,7 @@ const AddComments = async(req,res,next)=>{
 
 
 const DeleteComments = async(req,res,next)=>{
-    console.log({id:req.params})
+    // console.log({id:req.params})
 
     try {
          const deleteComment = await PostModel.findByIdAndUpdate(req.params.postId, { $pull: {comments:{ _id: req.params.commentId } }}, { new: true })
@@ -67,4 +118,4 @@ const DeleteComments = async(req,res,next)=>{
     }
 }
 
-export{createPost,AllPost,AddComments,DeleteComments}
+export{createPost,updatePost,AllPost,SinglePost,deletePost,AddComments,DeleteComments}
