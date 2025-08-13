@@ -12,5 +12,7 @@ export const updatePost = (userData,postId)=> API.put(`/post/updatePost/${postId
 export const AllPost = ()=> API.get("/post/AllPost")
 export const AddComments=(commentData,postId)=>API.post(`/post/addComment/${postId}`,commentData)
 export const DeleteComments=(postId,commentId)=>API.delete(`/post/${postId}/deleteComment/${commentId}`)
+export const LikePost=(postId)=>API.put(`/post/likePost/${postId}`)
+export const DisLikePost=(postId)=>API.put(`/post/dislikePost/${postId}`)
 export const DeletePost=(postId)=>API.delete(`/post/deletePost/${postId}`)
 export const SinglePost=(postId)=>API.get(`/post/singlePost/${postId}`)

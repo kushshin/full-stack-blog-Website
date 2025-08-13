@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { LikePost,DisLikePost } from '../API Services/PostAPI'
 import { fetchPosts } from '../Redux/postSlice'
 import { Link } from 'react-router-dom'
 import { FaComment } from "react-icons/fa"
@@ -10,10 +11,30 @@ import { IoIosHeartEmpty } from "react-icons/io";
 
 function AllBlogs() {
   const dispatch = useDispatch()
+  const userId = window.localStorage.getItem('userID')
   const { posts, loading, error } = useSelector((state) => state.posts);
   useEffect(() => {
     dispatch(fetchPosts())
   }, [dispatch])
+
+  const likePost = async (postId) => {
+    try {
+      const res = await LikePost(postId)
+      console.log(res.data)
+      fetchPosts()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const disLikePost = async (postId) => {
+    try {
+      const res = await DisLikePost(postId)
+      console.log(res.data)
+      fetchPosts()
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   if (loading) return <p>Loading posts...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -27,7 +48,7 @@ function AllBlogs() {
         </ul>
       </div>
       <div className='flex flex-wrap gap-4 justify-center'>
-        {posts.map((post,id) => (
+        {posts.map((post, id) => (
           <div key={id} className="card bg-base-100 shadow-sm mt-4 mb-4 rounded-none w-[400px] h-[600px] flex" >
             <figure>
               <img className='w-full h-full object-cover'
@@ -43,10 +64,15 @@ function AllBlogs() {
               </div>
               <p>{post.shortDesc}</p>
               <div className='flex items-center gap-1'>
-                 <FaComment /> 
-              <p>{post.comments.length}</p>
-              <div className='text-red-700'><IoIosHeart /></div>:
-        <div ><IoIosHeartEmpty /></div>
+                <FaComment />
+                <p>{post.comments.length}</p>
+                {/* <div className='text-red-700' onClick={()=>likePost(post._id,userId)}>{post.likes.includes(userId) ?<IoIosHeart />:<IoIosHeartEmpty />}</div> */}
+                <div><IoIosHeart onClick={() => likePost(post._id)} /></div> 
+                <div><IoIosHeartEmpty onClick={() => disLikePost(post._id)} /> </div>
+                {/* {post.likes.includes(userId) ? (
+                ) : (
+                )} */}
+                <span>{post.likes}Likes</span>
               </div>
               <div className="card-actions justify-end">
                 <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>

@@ -27,53 +27,53 @@ const postID = id
         fileInputRef.current.click()
     }
 
-    const getSinglePost = async () => {
-        try {
-            const res = await SinglePost(id)
-            const post = (res.data.post)
-            console.log(post)
-            const imageURL = post.image  || "";
-            setPreview(imageURL)
-            setTitle(post.title || "");
-            setShortDesc(post.shortDesc || "");
-            setDesc(post.desc || "");
-            setCategory(post.category || "");
-            setUser(post.postedBy || userId);
-            // setUserName(post. || "");
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    // const getSinglePost = async () => {
+    //     try {
+    //         const res = await SinglePost(id)
+    //         const post = (res.data.post)
+    //         console.log(post)
+    //         const imageURL = post.image  || "";
+    //         setPreview(imageURL)
+    //         setTitle(post.title || "");
+    //         setShortDesc(post.shortDesc || "");
+    //         setDesc(post.desc || "");
+    //         setCategory(post.category || "");
+    //         setUser(post.postedBy || userId);
+    //         // setUserName(post. || "");
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
-    useEffect(() => {
-        getSinglePost()
-    }, [])
+    // useEffect(() => {
+    //     getSinglePost()
+    // }, [])
 
-    const handleEditPost = async(e)=>{
-        e.preventDefault()
-        try {            
-        const editedDetails = new FormData();
-        editedDetails.append("title", title);
-        editedDetails.append("shortDesc", shortDesc);
-        editedDetails.append("desc", desc);
-        editedDetails.append("category", category);
-        editedDetails.append("user", user)
-            editedDetails.append("username", username)
-        if (image) editedDetails.append("image", image);
+    // const handleEditPost = async(e)=>{
+    //     e.preventDefault()
+    //     try {            
+    //     const editedDetails = new FormData();
+    //     editedDetails.append("title", title);
+    //     editedDetails.append("shortDesc", shortDesc);
+    //     editedDetails.append("desc", desc);
+    //     editedDetails.append("category", category);
+    //     editedDetails.append("user", user)
+    //         editedDetails.append("username", username)
+    //     if (image) editedDetails.append("image", image);
     
-        const res = await updatePost(editedDetails,postID)
-        console.log(res.data)
-                setTitle("")
-                setDesc("")
-                setShortDesc("")
-                setImage("")
-                setCategory("")
-                setPreview("")
-                navigate('/AllBlogs')
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //     const res = await updatePost(editedDetails,postID)
+    //     console.log(res.data)
+    //             setTitle("")
+    //             setDesc("")
+    //             setShortDesc("")
+    //             setImage("")
+    //             setCategory("")
+    //             setPreview("")
+    //             navigate('/AllBlogs')
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     const handlePost = async (e) => {
         try {
@@ -86,7 +86,8 @@ const postID = id
             postDetails.append("category", category)
             postDetails.append("user", user)
             postDetails.append("username", username)
-
+            
+            setPreview(image)
             const res = await createPost(postDetails)
             setTitle("")
             setDesc("")
@@ -130,9 +131,9 @@ const postID = id
                     <li><a>Write</a></li>
                 </ul>
             </div>
-            <form onSubmit={postID ? handleEditPost : handlePost}>
+            <form onSubmit={handlePost}>
                 <div className=' flex flex-col gap-y-4  px-12 md:px-32 py-4 text-[#a0a05f]'>
-                    <h1 className='text-center'>{postID? "Edit Blog" : "Create New Blog"}</h1>
+                    <h1 className='text-center'> Create New Blog</h1>
                     <input
                         type="file"
                         ref={fileInputRef}
@@ -176,7 +177,7 @@ const postID = id
                     </select>
                     <input type="text" placeholder="Short Description" className="input w-[400px] md:w-full" value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} />
                     <textarea placeholder="write your blog" className="textarea w-[400px] md:w-full h-[300px]" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
-                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'>{postID ? "UpdatePost" : "Post"}</button>
+                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'> Post</button>
                
                 </div>
             </form>

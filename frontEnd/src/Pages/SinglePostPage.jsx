@@ -43,7 +43,7 @@ console.log(res)
 }
 
 const handleEditPost=async(id)=>{
-navigate("/writePost", { state: { id } });
+navigate("/editPost", { state: { id } });
 }
 
 
@@ -60,8 +60,8 @@ navigate("/writePost", { state: { id } });
   }
 
   const deleteComment = async (postid, commentid) => {
-    console.log(commentid)
-    console.log(postid)
+    // console.log(commentid)
+    // console.log(postid)
     try {
       const res = await DeleteComments(postid, commentid)
       console.log(res)

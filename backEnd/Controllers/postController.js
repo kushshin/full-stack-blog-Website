@@ -91,6 +91,8 @@ const deletePost =async(req,res,next)=>{
     }
 }
 
+
+// add comment
 const AddComments = async(req,res,next)=>{
     // console.log(req.body)
     const comment = {
@@ -106,7 +108,7 @@ const AddComments = async(req,res,next)=>{
     }
 }
 
-
+// delete comment
 const DeleteComments = async(req,res,next)=>{
     // console.log({id:req.params})
 
@@ -118,4 +120,44 @@ const DeleteComments = async(req,res,next)=>{
     }
 }
 
-export{createPost,updatePost,AllPost,SinglePost,deletePost,AddComments,DeleteComments}
+// like post
+const likePost =async(req,res,next)=>{
+console.log(req.params)
+    try {
+        const post = await PostModel.findById(req.params.id)
+        console.log(post)
+        if(!post){
+            return next(new ErrorResponse("post not found", 400))
+        }
+      if (post.likes.includes(req.user.id)) {
+            return res.status(400).json({ success: false, message: "You already liked this post" });
+        }
+
+        const updatedPost = await PostModel.findByIdAndUpdate(
+            req.params.postId,
+            { $push: {likes: req.user.id } }, // prevents duplicates
+            { new: true }
+        );
+
+        res.status(200).json({
+            success: true,
+            message: "Post liked",
+            likedPost: updatedPost
+        });
+    } catch (error) {
+         next(new ErrorResponse('failed to like post',500))
+    }
+}
+// dislike post
+const dislikePost =async(req,res,next)=>{
+    console.log(req.params)
+    try {
+        // const post = await PostModel.findById(req.params.postId)
+        const Post = await PostModel.findByIdAndUpdate(req.params.postId,{$pull:{likes : req.user.id}},{new:true})
+         res.status(200).json({success:true, message:" post disliked", dislikedPost: Post})
+    } catch (error) {
+         next(new ErrorResponse('failed to like post',500))
+    }
+}
+
+export{createPost,updatePost,AllPost,SinglePost,deletePost,AddComments,DeleteComments,likePost,dislikePost}
