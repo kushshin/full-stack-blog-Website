@@ -36,7 +36,7 @@ setSelectedCategory(category)
         </div>
         <div className="bg-cover bg-center text-white  rounded h-[500px] flex flex-col items-center justify-center text-center mx-8 mb-8 " style={{ backgroundImage: `url(${bgImage})` }}>
           <h1 className='text-6xl font-bold '><span className='text-[#bbbb8e]'>T</span>e<span className='text-[#bbbb8e]'>c</span>h<span className='text-[#bbbb8e]'>n</span>o<span className='text-[#bbbb8e]'>l</span>o<span className='text-[#bbbb8e]'>g</span>y</h1> <br />
-          <p>Technology refers to the application of scientific knowledge for practical purposes, enabling innovation and progress across various fields. It enhances communication, automates tasks, improves healthcare, and drives economic growth. Constantly evolving, technology shapes how we live, work, and interact, playing a vital role in modern society and future development.</p>
+          <p className='text-[#b1b16e] text-[20px]'>Technology refers to the application of scientific knowledge for practical purposes, enabling innovation and progress across various fields. It enhances communication, automates tasks, improves healthcare, and drives economic growth. Constantly evolving, technology shapes how we live, work, and interact, playing a vital role in modern society and future development.</p>
         </div>
         <div className=' flex flex-col md:flex-row  justify-around px-8 '>
           <div className='mt-4 flex-1 mr-8'>
@@ -54,7 +54,7 @@ setSelectedCategory(category)
         <div className='p-4'>
             <ul>
               {categories.map((category)=>(
-                <div className='flex justify-between'>       
+                <div className='flex justify-between text-[#b1b16e]'>       
                     <li onClick={()=>handleCategory(category)} className={`cursor-pointer ${selectedCategory === category ? 'font-bold' : ''}`}>{category}</li>
                  {selectedCategory === category ?<span>{filteredCategory.length}</span>:""}
                 </div>

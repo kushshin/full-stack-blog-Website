@@ -6,10 +6,6 @@ const postSchema = new mongoose.Schema({
     required: true,
     unique: true
   },
-  slug: {
-    type: String,
-    unique: true
-  },
   shortDesc: {
     type: String,
     required: true
@@ -39,10 +35,9 @@ const postSchema = new mongoose.Schema({
     enum: ["draft", "published"],
     default: "draft"
   },
-  likes: {
-    type: Array,
-    default: []
-  },
+  likes: [{ type: mongoose.Schema.Types.ObjectId,
+    ref: "User"
+   }],
   comments: [{
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     text: String,

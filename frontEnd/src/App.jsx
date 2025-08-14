@@ -12,6 +12,8 @@ import AllBlogs from './Pages/AllBlogs'
 import ContactPage from './Pages/ContactPage'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UserProfile from './Pages/UserProfile'
+import CreateProfile from './Pages/CreateProfile'
 
 // import './App.css'
 
@@ -30,6 +32,8 @@ function App() {
             <Route path="/register" element ={<RegisterPage/>}/>
             <Route path="/login" element ={<LoginPage/>}/>
             <Route path="/writePost" element ={<WritePost/>}/>
+            <Route path="/profile" element ={<UserProfile/>}/>
+            <Route path="/createProfile" element ={<CreateProfile/>}/>
             <Route path="/editPost" element ={<EditPost/>}/>
             <Route path="/singlePost/:id" element ={<SinglePostPage/>}/>
             <Route path="/AllBlogs" element ={<AllBlogs/>}/>

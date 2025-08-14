@@ -27,7 +27,7 @@ const filteredCategory =  selectedCategory && selectedCategory !== "All" ? posts
       src={post.image}
       alt="Album" />
   </figure>
-  <div className="card-body">
+  <div className="card-body text-[#b1b16e]">
     <h4>Category : {post.categories}</h4>
     <h2 className="card-title">{post.title}</h2>
     <div className='flex gap-2 items-center'>

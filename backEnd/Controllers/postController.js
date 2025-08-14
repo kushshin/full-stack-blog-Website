@@ -4,27 +4,28 @@ import multer from 'multer';
 import ErrorResponse from '../Middlewares/ErrorResponse.js';
 
 
-//create post
+//create posts
 
 const createPost = async(req,res,next)=>{
-    const{title,desc,shortDesc,username,category,user} = req.body
-    console.log({body:req.body})
-    console.log({path:req.file.path})
-    
+    console.log(req.body)
+    console.log(req.file)
+    const{title,desc,shortDesc,username,categories,postedBy} = req.body
+
     try {
         const newPost = new PostModel({
             title,
             desc,
             shortDesc,
             image: req.file?.path,
-            categories: category,
+            categories,
+            postedBy,
             username,
-            postedBy: user
         })
 console.log("Post to be saved:", newPost);
         await newPost.save()
-       res.status(200).json({success :true, message : 'new post created'})  
+       res.status(200).json({success :true, message : 'new post created', post:newPost})  
     } catch (error) {
+         console.error("Save failed:", error);
       next(new ErrorResponse('failed to create post',400))
     }
 }
@@ -134,7 +135,7 @@ console.log(req.params)
         }
 
         const updatedPost = await PostModel.findByIdAndUpdate(
-            req.params.postId,
+            req.params.id,
             { $push: {likes: req.user.id } }, // prevents duplicates
             { new: true }
         );
@@ -153,7 +154,7 @@ const dislikePost =async(req,res,next)=>{
     console.log(req.params)
     try {
         // const post = await PostModel.findById(req.params.postId)
-        const Post = await PostModel.findByIdAndUpdate(req.params.postId,{$pull:{likes : req.user.id}},{new:true})
+        const Post = await PostModel.findByIdAndUpdate(req.params.id,{$pull:{likes : req.user.id}},{new:true})
          res.status(200).json({success:true, message:" post disliked", dislikedPost: Post})
     } catch (error) {
          next(new ErrorResponse('failed to like post',500))

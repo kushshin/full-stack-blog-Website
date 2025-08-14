@@ -31,13 +31,13 @@ const postID = id
         try {
             const res = await SinglePost(id)
             const post = (res.data.post)
-            // console.log(post)
+            console.log(post)
             const imageURL = post.image  || "";
             setPreview(imageURL)
             setTitle(post.title || "");
             setShortDesc(post.shortDesc || "");
             setDesc(post.desc || "");
-            setCategory(post.category || "");
+            setCategory(post.categories || "");
             setUser(post.postedBy || userId);
             // setUserName(post. || "");
         } catch (error) {
@@ -56,8 +56,8 @@ const postID = id
         editedDetails.append("title", title);
         editedDetails.append("shortDesc", shortDesc);
         editedDetails.append("desc", desc);
-        editedDetails.append("category", category);
-        editedDetails.append("user", user)
+        editedDetails.append("categories", category);
+        editedDetails.append("postedBy", user)
             editedDetails.append("username", username)
         if (image) editedDetails.append("image", image);
     
@@ -66,7 +66,7 @@ const postID = id
                 setTitle("")
                 setDesc("")
                 setShortDesc("")
-                setImage("")
+                setImage(null)
                 setCategory("")
                 setPreview("")
                 navigate('/AllBlogs')
@@ -131,7 +131,7 @@ const postID = id
           <li className='hover:text-[#818147]'><a>Edit</a></li>
         </ul>
       </div>
-            <form onSubmit={handleEditPost}>
+            <form onSubmit={handleEditPost} encType="multipart/form-data">
                 <div className=' flex flex-col gap-y-4  px-12 md:px-32 py-4 text-[#a0a05f]'>
                     <h1 className='text-center'>Edit Blog</h1>
                     <input

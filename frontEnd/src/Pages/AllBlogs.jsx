@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { LikePost,DisLikePost } from '../API Services/PostAPI'
 import { fetchPosts } from '../Redux/postSlice'
@@ -13,15 +13,26 @@ function AllBlogs() {
   const dispatch = useDispatch()
   const userId = window.localStorage.getItem('userID')
   const { posts, loading, error } = useSelector((state) => state.posts);
+  const[newPost,setNewPost] = useState([])
+  // console.log(posts)
   useEffect(() => {
     dispatch(fetchPosts())
   }, [dispatch])
 
+  useEffect(() => {
+  setNewPost(posts); 
+}, [posts]);
+
   const likePost = async (postId) => {
     try {
       const res = await LikePost(postId)
-      console.log(res.data)
-      fetchPosts()
+      const updatedPost = res.data.likedPost
+    setNewPost(prevPosts =>
+      prevPosts.map(post =>
+        post._id === updatedPost._id ? updatedPost : post
+      )
+    );
+      // dispatch(fetchPosts())
     } catch (error) {
       console.log(error)
     }
@@ -29,8 +40,13 @@ function AllBlogs() {
   const disLikePost = async (postId) => {
     try {
       const res = await DisLikePost(postId)
-      console.log(res.data)
-      fetchPosts()
+     const updatedPost = res.data.dislikedPost
+          setNewPost(prevPosts =>
+      prevPosts.map(post =>
+        post._id === updatedPost._id ? updatedPost : post
+      )
+    );
+    //  dispatch(fetchPosts()); 
     } catch (error) {
       console.log(error)
     }
@@ -48,7 +64,7 @@ function AllBlogs() {
         </ul>
       </div>
       <div className='flex flex-wrap gap-4 justify-center'>
-        {posts.map((post, id) => (
+        {newPost.map((post, id) => (
           <div key={id} className="card bg-base-100 shadow-sm mt-4 mb-4 rounded-none w-[400px] h-[600px] flex" >
             <figure>
               <img className='w-full h-full object-cover'
@@ -67,12 +83,12 @@ function AllBlogs() {
                 <FaComment />
                 <p>{post.comments.length}</p>
                 {/* <div className='text-red-700' onClick={()=>likePost(post._id,userId)}>{post.likes.includes(userId) ?<IoIosHeart />:<IoIosHeartEmpty />}</div> */}
-                <div><IoIosHeart onClick={() => likePost(post._id)} /></div> 
-                <div><IoIosHeartEmpty onClick={() => disLikePost(post._id)} /> </div>
-                {/* {post.likes.includes(userId) ? (
+                {post.likes.includes(userId) ? (
+                  <div className='text-red-700'><IoIosHeart onClick={() => disLikePost(post._id)} /> </div>
                 ) : (
-                )} */}
-                <span>{post.likes}Likes</span>
+                  <div><IoIosHeartEmpty onClick={() => likePost(post._id)} /></div> 
+                )}
+                <span>{post.likes.length} {post.likes.length > 1 ? "Likes":"Like"}</span>
               </div>
               <div className="card-actions justify-end">
                 <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>

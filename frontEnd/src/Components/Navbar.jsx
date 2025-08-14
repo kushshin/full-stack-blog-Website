@@ -4,6 +4,7 @@ import { IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
 import Cookie from 'js-cookie';
 import { useAuth } from '../Context/AuthContext.jsx';
+import { UserRoundPen } from 'lucide-react';
 
 
 function Navbar() {
@@ -23,8 +24,9 @@ function Navbar() {
   return (
     <div className='bg-base-100 w-full md:h-16 flex items-center  justify-between px-4 '>
       {/* LOGO */}
-      <div>
+      <div className='flex  justify-between gap-4 items-center'>
         <img src="../img/stackBits.png" alt="" className='w-32 h-16 ' />
+    <Link to ='/profile'><span className='text-[#a0a05f] text-[12px]'>{username}</span></Link>
       </div>
       {/* MOBILE MENU */}
       <div className='md:hidden'>
@@ -37,6 +39,7 @@ function Navbar() {
          { username? <a href="/writePost">Write </a>:""}
             <a href="/AllBlogs">Blog </a>
             <a href="/contact">Contact</a>
+            <a href="/createProfile">ProfileSettings</a>
             {username ? 
             <a href="/"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a>:
             <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
@@ -44,14 +47,17 @@ function Navbar() {
         </div>
       </div>
       {/* DESKTOP MENU */}
-      <div className=' hidden md:flex items-center gap-4 text-[#bbbb8e]'>
+      <div className=' hidden md:flex tems-center gap-4 text-[#bbbb8e]'>
         <a href="/" className='text-[#a0a05f]'>Home </a>
         <a href="">About Us</a>
        { username? <a href="/writePost">Write </a>:""}
         <a href="/AllBlogs">Blog </a>
         <a href="/contact">Contact</a>
       </div>
-      <div className=' hidden md:flex gap-4'>
+      <div className=' hidden md:flex gap-4 items-center'>
+       <div>
+<Link to= '/Profile'><UserRoundPen  className='text-[#a0a05f]' /></Link>
+        </div>
        {username ? 
             <a href="/"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a>:
             <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
