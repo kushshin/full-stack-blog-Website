@@ -65,13 +65,26 @@ const AllPost = async(req,res,next)=>{
     }
 }
 
+//get users all posts
+// const getAllUserPosts = async(req,res,next)=>{
+//     console.log(req.params)
+//     try {
+//         const allUserPost = await PostModel.findById({postedBy:req.params.id})
+//          res.status(200).json({success :true, message : 'fetched All user post successfully',post : allUserPost})  
+//     } catch (error) {
+//          next(new ErrorResponse('failed to fetch all posts',400))
+//     }
+// }
+
+
+
 //get single post
 
 const SinglePost=async(req,res,next)=>{
     console.log({id:req.params.id})
     try {
         const singlepost = await PostModel.findById(req.params.id)
-         res.status(200).json({success :true, message : 'fetched All post successfully',post : singlepost})  
+         res.status(200).json({success :true, message : 'fetched single post successfully',post : singlepost})  
     } catch (error) {
          next(new ErrorResponse('failed to fetch all posts',400))
     }
