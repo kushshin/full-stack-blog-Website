@@ -49,7 +49,7 @@ setSelectedCategory(category)
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>
               <input type="text" placeholder='search Post' className='bg-transparent outline-none' />
             </div>
-                <div className=' rounded-none my-4 bg-base-100 p-2 '>
+                <div className=' rounded-2xl my-4 bg-base-100 p-2 '>
         <h1 className='text-center bg-[#bbbb8e] font-semibold text-white rounded-xl'>Categories</h1>
         <div className='p-4'>
             <ul>

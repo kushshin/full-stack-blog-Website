@@ -21,7 +21,7 @@ const filteredCategory =  selectedCategory && selectedCategory !== "All" ? posts
   return (
     <div>
 {filteredCategory.map((post)=>(
-        <div key={post.id} className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-none" >
+        <div key={post.id} className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-3xl" >
   <figure>
     <img className='w-[450px] h-[350px]'
       src={post.image}

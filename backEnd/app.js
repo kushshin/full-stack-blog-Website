@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import cors from 'cors';
 import authRouter from './Routes/authRoute.js'
 import postRouter from './Routes/postRoute.js'
+import userRouter from './Routes/userRoute.js'
 import DBconnection from './DBConnection.js';
 import cookieParser from 'cookie-parser';
 import errorHandler from './Middlewares/errorHandler.js';
@@ -23,6 +24,7 @@ app.use(cookieParser())
 
 app.use('/api/auth', authRouter)
 app.use('/api/post', postRouter)
+app.use('/api/user', userRouter)
 
     
     

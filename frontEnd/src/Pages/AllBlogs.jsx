@@ -65,7 +65,7 @@ function AllBlogs() {
       </div>
       <div className='flex flex-wrap gap-4 justify-center'>
         {newPost.map((post, id) => (
-          <div key={id} className="card bg-base-100 shadow-sm mt-4 mb-4 rounded-none w-[400px] h-[600px] flex" >
+          <div key={id} className="card bg-base-100 shadow-sm mt-4 mb-4 rounded-2xl w-[400px] h-[600px] flex" >
             <figure>
               <img className='w-full h-full object-cover'
                 src={post.image}

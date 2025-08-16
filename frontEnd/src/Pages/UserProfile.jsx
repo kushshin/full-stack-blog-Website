@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchPosts } from '../Redux/postSlice'
 // import { GetUserPosts } from '../API Services/PostAPI'
 import bgImage from '../../public/img/coverImage4.jpg'
 import { Heart } from 'lucide-react';
 import { MessageCircle } from 'lucide-react';
+import { Camera } from 'lucide-react';
 
 function UserProfile() {
     const { id } = useParams()
@@ -27,13 +28,14 @@ function UserProfile() {
                 <div className='' >
                     <div>
                         <div className="  bg-cover bg-center text-white  rounded-t-3xl w-[450px] h-[150px] md:w-[950px] md:h-[300px] flex flex-col items-center justify-center text-center mx-4 md:mx-8  mt-8 " style={{ backgroundImage: `url(${bgImage})` }}>
-                            <div className=' w-[100px] h-[100px] rounded-full border-2 bg-gray-500   top-48  left-16  absolute md:top-80 md:left-20'> </div>
+                            <div className=' w-[100px] h-[100px] rounded-full border-2 bg-gray-500   top-48  left-16  absolute md:top-80 md:left-20'><Link to='/EditUserProfile'><div className='absolute left-9 top-9'> <Camera /></div></Link> </div>
                         </div>
                         <div className=' w-[450px] h-[150px] md:w-[950px]  md:h-[300px] bg-[#cfcf90] mx-4 md:mx-8 mb-8 rounded-b-3xl'></div>
                     </div>
-                    <div className=' flex flex-col md:flex md:flex-row mx-8 mt-12'>
-                        {getAllUserPosts.map((post) => (
-                            <div key={post.id} className="card  bg-base-100 shadow-sm mx-4 mt-4 mb-4 rounded-3xl" >
+                    <div className=' flex flex-col  mx-8 mt-12'>
+                         <h1 className='text-center m-4 text-[14px] font-bold text-[#bbbb8e]'>MY BLOGS</h1>
+                        {getAllUserPosts.length  == 0 ? <h1>write a Blog <a href="/writePost">GoBack</a></h1> : getAllUserPosts.map((post) => (
+                            <div key={post.id} className="card  lg:card-side bg-base-100 shadow-sm mx-4 mt-4 mb-4 rounded-3xl" >
                                 <figure>
                                     <img className='w-[450px] h-[350px]'
                                         src={post.image}

@@ -13,7 +13,7 @@ import ContactPage from './Pages/ContactPage'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserProfile from './Pages/UserProfile'
-import CreateProfile from './Pages/CreateProfile'
+import EdituserProfile from './Pages/EdituserProfile'
 
 // import './App.css'
 
@@ -33,7 +33,7 @@ function App() {
             <Route path="/login" element ={<LoginPage/>}/>
             <Route path="/writePost" element ={<WritePost/>}/>
             <Route path="/profile/:id" element ={<UserProfile/>}/>
-            <Route path="/createProfile" element ={<CreateProfile/>}/>
+            <Route path="/EditUserProfile" element ={<EdituserProfile/>}/>
             <Route path="/editPost" element ={<EditPost/>}/>
             <Route path="/singlePost/:id" element ={<SinglePostPage/>}/>
             <Route path="/AllBlogs" element ={<AllBlogs/>}/>

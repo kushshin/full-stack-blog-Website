@@ -7,7 +7,7 @@ function RecentPosts({ posts }) {
   return (
 
     <div className='md:w-[300px] mb-4 '>
-      <ul className="list bg-base-100 rounded-none shadow-md p-4">
+      <ul className="list bg-base-100 rounded-2xl shadow-md p-4">
         <li className=" mb-2 text-center bg-[#bbbb8e] font-semibold text-white rounded-xl">Recent Posts</li>
         {posts.slice(0, 3).map((post) => (
           <li className="list-row text-[#b1b16e]">
