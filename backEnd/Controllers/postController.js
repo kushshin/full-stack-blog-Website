@@ -58,7 +58,7 @@ console.log("Post to be saved:", editedPost);
 
 const AllPost = async(req,res,next)=>{
     try {
-        const allPost = await PostModel.find()
+        const allPost = await PostModel.find().populate("postedBy","profilePic")
          res.status(200).json({success :true, message : 'fetched All post successfully',post : allPost})  
     } catch (error) {
          next(new ErrorResponse('failed to fetch all posts',400))

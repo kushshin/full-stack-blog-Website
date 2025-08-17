@@ -1,9 +1,9 @@
-import React, { useEffect,useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { LikePost,DisLikePost } from '../API Services/PostAPI'
+import { LikePost, DisLikePost } from '../API Services/PostAPI'
 import { fetchPosts } from '../Redux/postSlice'
 import { Link } from 'react-router-dom'
-import { FaComment } from "react-icons/fa"
+import { FaRegComment } from "react-icons/fa";
 import { IoIosHeart } from "react-icons/io";
 import { IoIosHeartEmpty } from "react-icons/io";
 
@@ -13,25 +13,33 @@ function AllBlogs() {
   const dispatch = useDispatch()
   const userId = window.localStorage.getItem('userID')
   const { posts, loading, error } = useSelector((state) => state.posts);
-  const[newPost,setNewPost] = useState([])
+  const [newPost, setNewPost] = useState([])
+
+  const [categories, setCategories] = useState(["All", "Web Development", "Development", "Marketing", "Search Engines", "Databases"])
+  const [selectedCategory, setSelectedCategory] = useState("All");
+    const filteredCategory = selectedCategory && selectedCategory !== "All" ? posts.filter((post) => post.categories === selectedCategory) : posts;
+
+      const handleCategory = (category) => {
+    setSelectedCategory(category)
+  };
   // console.log(posts)
   useEffect(() => {
     dispatch(fetchPosts())
   }, [dispatch])
 
   useEffect(() => {
-  setNewPost(posts); 
-}, [posts]);
+    setNewPost(posts);
+  }, [posts]);
 
   const likePost = async (postId) => {
     try {
       const res = await LikePost(postId)
       const updatedPost = res.data.likedPost
-    setNewPost(prevPosts =>
-      prevPosts.map(post =>
-        post._id === updatedPost._id ? updatedPost : post
-      )
-    );
+      setNewPost(prevPosts =>
+        prevPosts.map(post =>
+          post._id === updatedPost._id ? updatedPost : post
+        )
+      );
       // dispatch(fetchPosts())
     } catch (error) {
       console.log(error)
@@ -40,13 +48,13 @@ function AllBlogs() {
   const disLikePost = async (postId) => {
     try {
       const res = await DisLikePost(postId)
-     const updatedPost = res.data.dislikedPost
-          setNewPost(prevPosts =>
-      prevPosts.map(post =>
-        post._id === updatedPost._id ? updatedPost : post
-      )
-    );
-    //  dispatch(fetchPosts()); 
+      const updatedPost = res.data.dislikedPost
+      setNewPost(prevPosts =>
+        prevPosts.map(post =>
+          post._id === updatedPost._id ? updatedPost : post
+        )
+      );
+      //  dispatch(fetchPosts()); 
     } catch (error) {
       console.log(error)
     }
@@ -63,9 +71,10 @@ function AllBlogs() {
           <li className='hover:text-[#818147]'><a>Blog</a></li>
         </ul>
       </div>
-      <div className='flex flex-wrap gap-4 justify-center'>
-        {newPost.map((post, id) => (
-          <div key={id} className="card bg-base-100 shadow-sm mt-4 mb-4 rounded-2xl w-[400px] h-[600px] flex" >
+      <div className='  flex flex-col-reverse md:flex md:flex-row justify-center items-center md:items-start  gap-4 '>
+      <div className='flex flex-col gap-4 '>
+        {filteredCategory.map((post, id) => (
+          <div key={id} className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-2xl w-[450px] h-[600px] md:w-[900px] md:h-[300px]  flex" >
             <figure>
               <img className='w-full h-full object-cover'
                 src={post.image}
@@ -80,15 +89,15 @@ function AllBlogs() {
               </div>
               <p>{post.shortDesc}</p>
               <div className='flex items-center gap-1'>
-                <FaComment />
+                <FaRegComment />
                 <p>{post.comments.length}</p>
                 {/* <div className='text-red-700' onClick={()=>likePost(post._id,userId)}>{post.likes.includes(userId) ?<IoIosHeart />:<IoIosHeartEmpty />}</div> */}
                 {post.likes.includes(userId) ? (
                   <div className='text-red-700'><IoIosHeart onClick={() => disLikePost(post._id)} /> </div>
                 ) : (
-                  <div><IoIosHeartEmpty onClick={() => likePost(post._id)} /></div> 
+                  <div><IoIosHeartEmpty onClick={() => likePost(post._id)} /></div>
                 )}
-                <span>{post.likes.length} {post.likes.length > 1 ? "Likes":"Like"}</span>
+                <span>{post.likes.length} {post.likes.length > 1 ? "Likes" : "Like"}</span>
               </div>
               <div className="card-actions justify-end">
                 <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>
@@ -96,6 +105,21 @@ function AllBlogs() {
             </div>
           </div>
         ))}
+      </div>
+      {/* //categories */}
+            <div className=' rounded-2xl my-4 bg-base-100 p-2 w-[450px] h-[200px] md:w-[400px] md:h-[300px]'>
+              <h1 className='text-center bg-[#bbbb8e] font-semibold text-white rounded-xl'>Categories</h1>
+              <div className='p-4'>
+                <ul>
+                  {categories.map((category) => (
+                    <div className='flex justify-between text-[#b1b16e]'>
+                      <li onClick={() => handleCategory(category)} className={`cursor-pointer ${selectedCategory === category ? 'font-bold' : ''}`}>{category}</li>
+                      {selectedCategory === category ? <span>{filteredCategory.length}</span> : ""}
+                    </div>
+                  ))}
+                </ul>
+              </div>
+            </div>
       </div>
     </div>
   )

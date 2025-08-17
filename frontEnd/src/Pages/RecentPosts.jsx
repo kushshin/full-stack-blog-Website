@@ -4,6 +4,7 @@ import { MessageCircle } from 'lucide-react';
 
 
 function RecentPosts({ posts }) {
+  // console.log(posts)
   return (
 
     <div className='md:w-[300px] mb-4 '>
@@ -11,7 +12,7 @@ function RecentPosts({ posts }) {
         <li className=" mb-2 text-center bg-[#bbbb8e] font-semibold text-white rounded-xl">Recent Posts</li>
         {posts.slice(0, 3).map((post) => (
           <li className="list-row text-[#b1b16e]">
-            <div><img className="size-10 rounded-box" src="https://img.daisyui.com/images/profile/demo/1@94.webp" /></div>
+            <div><img className="size-10 rounded-full" src={post.postedBy.profilePic} /></div>
             <div>
               <div>{post.username}</div>
               <div className="text-xs uppercase font-semibold opacity-60">{post.shortDesc}</div>

@@ -14,6 +14,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import UserProfile from './Pages/UserProfile'
 import EdituserProfile from './Pages/EdituserProfile'
+import AboutUs from './Pages/AboutUs'
 
 // import './App.css'
 
@@ -38,6 +39,7 @@ function App() {
             <Route path="/singlePost/:id" element ={<SinglePostPage/>}/>
             <Route path="/AllBlogs" element ={<AllBlogs/>}/>
             <Route path="/contact" element ={<ContactPage/>}/>
+            <Route path="/about" element ={<AboutUs/>}/>
            </Route>
             {/* <Route path="/forgotPassword" element={<ForgotPassword/>} />
             <Route path="/reset-password/:token" element={<ResetPassword/>} /> */}

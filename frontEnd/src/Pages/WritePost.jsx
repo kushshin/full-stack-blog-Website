@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../Context/AuthContext.jsx';
-import { createPost, SinglePost, updatePost } from '../API Services/PostAPI.js';
+import { createPost } from '../API Services/PostAPI.js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast, Bounce } from 'react-toastify'
 

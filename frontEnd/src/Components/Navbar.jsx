@@ -37,7 +37,7 @@ function Navbar() {
         <div className={`w-full bg-[#F5F5DC] h-[400px] absolute top-16 transition-all ease-in-out ${open ? '-right-0' : '-right-[100%]'} `}>
           <div className=' flex flex-col items-center gap-8 text-[#bbbb8e] mt-4'>
             <a href="/" className='text-[#a0a05f]'>Home </a>
-            <a href="">About Us</a>
+            <a href="/about">About Us</a>
             {username ? <a href="/writePost">Write </a> : ""}
             <a href="/AllBlogs">Blog </a>
             <a href="/contact">Contact</a>
@@ -51,7 +51,7 @@ function Navbar() {
       {/* DESKTOP MENU */}
       <div className=' hidden md:flex tems-center gap-4 text-[#bbbb8e]'>
         <a href="/" className='text-[#a0a05f]'>Home </a>
-        <a href="">About Us</a>
+        <a href="/about">About Us</a>
         {username ? <a href="/writePost">Write </a> : ""}
         <a href="/AllBlogs">Blog </a>
         <a href="/contact">Contact</a>

@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext.jsx';
 
 
-function AllPosts({selectedCategory}) {
+function AllPosts() {
   const {username} = useAuth()
   const dispatch = useDispatch()
   const { posts, loading, error } = useSelector((state) => state.posts);
 
-const filteredCategory =  selectedCategory && selectedCategory !== "All" ? posts.filter((post)=>post.categories === selectedCategory) : posts;
+// const filteredCategory =  selectedCategory && selectedCategory !== "All" ? posts.filter((post)=>post.categories === selectedCategory) : posts;
 
   useEffect(()=>{
    dispatch(fetchPosts())
@@ -20,7 +20,7 @@ const filteredCategory =  selectedCategory && selectedCategory !== "All" ? posts
   if (error) return <p>Error: {error}</p>;
   return (
     <div>
-{filteredCategory.map((post)=>(
+{posts.map((post)=>(
         <div key={post.id} className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-3xl" >
   <figure>
     <img className='w-[450px] h-[350px]'

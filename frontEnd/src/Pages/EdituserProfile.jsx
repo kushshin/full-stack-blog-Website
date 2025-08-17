@@ -2,15 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 // import { useAuth } from '../Context/AuthContext.jsx';
 import { EditUserProfile } from '../API Services/UserAPI.js';
 import { fetchUsers } from '../Redux/userSlice.js';
-import { useSelector,useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 
 function EdituserProfile() {
-    const dispatch = useDispatch()
 
-    const{users,loading,error} = useSelector((state)=>state.users)
-    console.log(users)
     const userId = window.localStorage.getItem("userID");
     const[preview,setPreview] = useState("")
     const[username,setUsername] = useState("")
@@ -19,15 +15,15 @@ function EdituserProfile() {
     const[email,setEmail] = useState("")
 
     const fileInputRef = useRef(null)
-        // const navigate = useNavigate()
+        const navigate = useNavigate()
     
         const handleFileClick = () => {
             fileInputRef.current.click()
         }
 
-        useEffect(()=>{
-            dispatch(fetchUsers())
-        },[dispatch])
+        // useEffect(()=>{
+        //     dispatch(fetchUsers())
+        // },[dispatch])
 
         const handleUserProfile=async(e)=>{
             try {
@@ -42,7 +38,7 @@ function EdituserProfile() {
                  setPreview("")
                 setUsername("")
                 setEmail("")
-
+                navigate("/")
             } catch (error) {
                 console.log(error)
             }
