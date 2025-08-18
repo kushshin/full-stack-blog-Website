@@ -15,6 +15,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import UserProfile from './Pages/UserProfile'
 import EdituserProfile from './Pages/EdituserProfile'
 import AboutUs from './Pages/AboutUs'
+import AdminLogin from './Pages/AdminLogin'
+import AdminDashBoard from './Pages/AdminDashBoard'
 
 // import './App.css'
 
@@ -40,6 +42,8 @@ function App() {
             <Route path="/AllBlogs" element ={<AllBlogs/>}/>
             <Route path="/contact" element ={<ContactPage/>}/>
             <Route path="/about" element ={<AboutUs/>}/>
+            <Route path="/admin" element ={<AdminLogin/>}/>
+            <Route path="/AdmindashBoard" element ={<AdminDashBoard/>}/>
            </Route>
             {/* <Route path="/forgotPassword" element={<ForgotPassword/>} />
             <Route path="/reset-password/:token" element={<ResetPassword/>} /> */}

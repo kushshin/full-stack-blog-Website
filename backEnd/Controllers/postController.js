@@ -139,7 +139,7 @@ const likePost =async(req,res,next)=>{
 console.log(req.params)
     try {
         const post = await PostModel.findById(req.params.id)
-        console.log(post)
+        // console.log(post)
         if(!post){
             return next(new ErrorResponse("post not found", 400))
         }
@@ -149,10 +149,10 @@ console.log(req.params)
 
         const updatedPost = await PostModel.findByIdAndUpdate(
             req.params.id,
-            { $push: {likes: req.user.id } }, // prevents duplicates
+            { $push: {likes: req.user.id } }, 
             { new: true }
         );
-
+console.log({liked:updatedPost})
         res.status(200).json({
             success: true,
             message: "Post liked",

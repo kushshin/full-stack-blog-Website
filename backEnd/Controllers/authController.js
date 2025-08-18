@@ -60,6 +60,33 @@ const loginUser = async(req,res,next)=>{
     }
 }
 
+const adminLogin = async(req,res,next)=>{
+    console.log(req.body)
+    try {
+        const{email,password} = req.body
+         if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+        // console.log(req.body)
+        const user = await UserModel.findOne({email:email})
+        // console.log(user)
+    
+    if (!user || user.role !== 'admin')res.status(401).json('user not found')
+    
+        const isValidPassword = await bcrypt.compare(password ,user.password)
+    
+        if(!isValidPassword) res.status(500).json("invalid email & password")
+    
+            const admintoken = jwt.sign({id : user._id, email : user.email, role: user.role, username : user.username},process.env.ADMIN_SECRET_KEY)
+    
+            // res.cookie("Token",token)
+            res.cookie("adminToken",admintoken)
+            res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,success :true, message : 'admin loggedIn successfully!! '})
+    } catch (error) {
+           res.status(500).json(error , "internal server Error")
+    }
+}
+
 // /routes/authRoute.js
 
 const forgotPassword = async (req, res,next) => {
@@ -149,4 +176,4 @@ const resetPassword = async (req, res,next) => {
 
 
 
-export {registerUser,loginUser,forgotPassword,resetPassword}
+export {registerUser,loginUser,adminLogin,forgotPassword,resetPassword}

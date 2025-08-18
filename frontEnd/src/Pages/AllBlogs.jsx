@@ -15,13 +15,7 @@ function AllBlogs() {
   const { posts, loading, error } = useSelector((state) => state.posts);
   const [newPost, setNewPost] = useState([])
 
-  const [categories, setCategories] = useState(["All", "Web Development", "Development", "Marketing", "Search Engines", "Databases"])
-  const [selectedCategory, setSelectedCategory] = useState("All");
-    const filteredCategory = selectedCategory && selectedCategory !== "All" ? posts.filter((post) => post.categories === selectedCategory) : posts;
 
-      const handleCategory = (category) => {
-    setSelectedCategory(category)
-  };
   // console.log(posts)
   useEffect(() => {
     dispatch(fetchPosts())
@@ -31,9 +25,19 @@ function AllBlogs() {
     setNewPost(posts);
   }, [posts]);
 
+    const [categories, setCategories] = useState(["All", "Web Development", "Development", "Marketing", "Search Engines", "Databases"])
+  const [selectedCategory, setSelectedCategory] = useState("All");
+    const filteredCategory = selectedCategory && selectedCategory !== "All" ? newPost.filter((post) => post.categories === selectedCategory) : newPost;
+    console.log(filteredCategory)
+
+      const handleCategory = (category) => {
+    setSelectedCategory(category)
+  };
+
   const likePost = async (postId) => {
     try {
       const res = await LikePost(postId)
+      console.log(res.data)
       const updatedPost = res.data.likedPost
       setNewPost(prevPosts =>
         prevPosts.map(post =>
@@ -74,9 +78,9 @@ function AllBlogs() {
       <div className='  flex flex-col-reverse md:flex md:flex-row justify-center items-center md:items-start  gap-4 '>
       <div className='flex flex-col gap-4 '>
         {filteredCategory.map((post, id) => (
-          <div key={id} className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-2xl w-[450px] h-[600px] md:w-[900px] md:h-[300px]  flex" >
+          <div key={id} className="card lg:card-side shadow-sm mt-4 mb-4 rounded-2xl  flex" >
             <figure>
-              <img className='w-full h-full object-cover'
+              <img className='w-[450px] h-[350px]'
                 src={post.image}
                 alt="Album" />
             </figure>

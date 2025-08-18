@@ -9,14 +9,15 @@ import { UserRoundPen } from 'lucide-react';
 
 function Navbar() {
   const [open, setOpen] = useState(false)
-  const { username, logout } = useAuth();
   const userId = window.localStorage.getItem('userID')
   const navigate = useNavigate()
+  const { username,role } = useAuth()
 
-
+  
   const handleLogout = () => {
     // logout()
     Cookie.remove("Token");
+    Cookie.remove("adminToken");
     window.localStorage.clear("");
     toast.success("you have successfully loggedout");
     navigate("/");
@@ -27,11 +28,13 @@ function Navbar() {
       {/* LOGO */}
       <div className='flex  justify-between gap-20 md:gap-4 items-center'>
         <img src="../img/stackBits.png" alt="" className='w-32 h-16 ' />
-        <span className='text-[#a0a05f] text-[12px]'>{username}</span>
+      <span className='text-[#a0a05f] text-[12px]'>{role === "admin" ? role : username}</span>
       </div>
       {/* MOBILE MENU */}
       <div className='md:hidden flex gap-2 z-10'>
-       {username? <Link to={`/profile/${userId}`}><UserRoundPen className='text-[#a0a05f]' /></Link>:""}
+      {username  && role !== "admin" ? <Link to={`/profile/${userId}`}><UserRoundPen className='text-[#a0a05f]' /></Link>  : null}
+      {/* {username ? ( role !== "admin" ? <Link to={`/profile/${userId}`}><UserRoundPen className='text-[#a0a05f]' /></Link> : <Link to="/AdmindashBoard"><span  className='text-[#a0a05f]'>DashBoard</span></Link>) : null} */}
+       {/* {username? <Link to={`/profile/${userId}`}><UserRoundPen className='text-[#a0a05f]' /></Link>:""} */}
         <div className='cursor-pointer ' onClick={() => setOpen((prev) => !prev)}>   {open ?
           <div className='text-[24px]'><IoClose /></div> : <div className='text-[24px]'><GiHamburgerMenu /></div>}</div>
         <div className={`w-full bg-[#F5F5DC] h-[400px] absolute top-16 transition-all ease-in-out ${open ? '-right-0' : '-right-[100%]'} `}>
@@ -41,6 +44,7 @@ function Navbar() {
             {username ? <a href="/writePost">Write </a> : ""}
             <a href="/AllBlogs">Blog </a>
             <a href="/contact">Contact</a>
+          {role === "admin" ?   <a href="/AdmindashBoard">DashBoard</a> : null}
             {/* <a href="/createProfile">ProfileSettings</a> */}
             {username ?
               <a href="/"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a> :
@@ -58,7 +62,7 @@ function Navbar() {
       </div>
       <div className=' hidden md:flex gap-4 items-center'>
         <div>
-          {username? <Link to={`/profile/${userId}`}><UserRoundPen className='text-[#a0a05f]' /></Link>:""}
+          {username ? ( role !== "admin" ? <Link to={`/profile/${userId}`}><UserRoundPen className='text-[#a0a05f]' /></Link> : <Link to="/AdmindashBoard"><span  className='text-[#a0a05f]'>DashBoard</span></Link>) : null}
         </div>
         {username ?
           <a href="/"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a> :

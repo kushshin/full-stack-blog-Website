@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 import{useSelector,useDispatch} from 'react-redux'
 import { fetchPosts } from '../Redux/postSlice'
 import { Link } from 'react-router-dom'
@@ -9,7 +9,12 @@ function AllPosts() {
   const {username} = useAuth()
   const dispatch = useDispatch()
   const { posts, loading, error } = useSelector((state) => state.posts);
+  const[showMore,setShowMore] = useState(3)
 
+ 
+  const loadMore=()=>{
+  setShowMore((prev)=>prev + 2)
+  }
 // const filteredCategory =  selectedCategory && selectedCategory !== "All" ? posts.filter((post)=>post.categories === selectedCategory) : posts;
 
   useEffect(()=>{
@@ -20,8 +25,8 @@ function AllPosts() {
   if (error) return <p>Error: {error}</p>;
   return (
     <div>
-{posts.map((post)=>(
-        <div key={post.id} className="card lg:card-side bg-base-100 shadow-sm mt-4 mb-4 rounded-3xl" >
+{posts.slice(0,showMore).map((post)=>(
+        <div key={post.id} className="card lg:card-side  shadow-sm mt-4 mb-4  rounded-2xl" >
   <figure>
     <img className='w-[450px] h-[350px]'
       src={post.image}
@@ -36,13 +41,16 @@ function AllPosts() {
     </div>  
     <p className='text-[32px] font-semibold'>{post.shortDesc}</p>
     {/* <p>{post.desc}</p> */}
-    <div className="card-actions justify-end">
+    <div className="card-actions justify-center">
 {username ? <Link to ={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link> : <button className="btn  bg-[#bbbb8e] text-white" onClick={()=>alert("please login to read blog")}>Read More</button>}
     </div>
   </div>
 </div>
        ) )}
+       <div className='flex justify-center m-3'>
+{showMore < posts.length  &&  <button className="btn  bg-[#bbbb8e] text-white " onClick={loadMore}>Load More</button> }
 
+       </div>
     </div>
   )
 }

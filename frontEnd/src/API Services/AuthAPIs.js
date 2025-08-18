@@ -9,3 +9,4 @@ const API = axios.create({
 //Auth API
 export const registerUser = (userData)=> API.post("/auth/register",userData)
 export const loginUser = (userData)=>  API.post("/auth/login",userData)
+export const adminLogin = (userData)=>  API.post("/auth/adminlogin",userData)

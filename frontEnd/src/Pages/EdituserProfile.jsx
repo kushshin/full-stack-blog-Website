@@ -87,8 +87,8 @@ function EdituserProfile() {
                     <input type="text" placeholder="username" className="input  w-[400px] md:w-full"  onChange={(e)=>setUsername(e.target.value)} />
                     <input type="text" placeholder="email" className="input w-[400px] md:w-full" onChange={(e)=>setEmail(e.target.value)} />
                     <div className='flex justify-center gap-2'>
-                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'> update</button>
-                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text'> Delete Account</button>
+                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text btn' type='submit'> update</button>
+                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text btn'> Delete Account</button>
                     </div>
 
                 </div>
