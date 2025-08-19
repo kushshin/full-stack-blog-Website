@@ -5,11 +5,12 @@ import { Link } from 'react-router-dom'
 import { useAuth } from '../Context/AuthContext.jsx';
 
 
-function AllPosts() {
+function AllPosts({filteredPosts}) {
   const {username} = useAuth()
   const dispatch = useDispatch()
   const { posts, loading, error } = useSelector((state) => state.posts);
   const[showMore,setShowMore] = useState(3)
+  console.log(filteredPosts)
 
  
   const loadMore=()=>{
@@ -25,7 +26,7 @@ function AllPosts() {
   if (error) return <p>Error: {error}</p>;
   return (
     <div>
-{posts.slice(0,showMore).map((post)=>(
+{filteredPosts.slice(0,showMore).map((post)=>(
         <div key={post.id} className="card lg:card-side  shadow-sm mt-4 mb-4  rounded-2xl" >
   <figure>
     <img className='w-[450px] h-[350px]'

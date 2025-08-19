@@ -11,6 +11,16 @@ import { useSelector } from 'react-redux'
 
 function HomePage() {
   const { posts, loading, error } = useSelector((state) => state.posts);
+  const[searchFilter,setSearchFilter] = useState("")
+
+
+  const filteredPosts = posts.filter((post) =>
+      post.title.toLowerCase().includes(searchFilter.toLowerCase()) ||
+      post.shortDesc.toLowerCase().includes(searchFilter.toLowerCase())||
+       post.categories.toLowerCase().includes(searchFilter.toLowerCase())
+  )
+  // const handleSearch=async()=>{
+  // }
 
 
   return (
@@ -31,13 +41,13 @@ function HomePage() {
             <h1 className='text-center text-[#b1b16e] font-semibold '>ALL POSTS</h1>
         <div className=' flex flex-col justify-center md:flex-row  md:justify-around  px-8 m-4'>
           <div className=' flex-1 md:mr-8'>
-            <div><AllPosts /></div>
+            <div><AllPosts filteredPosts={filteredPosts} /></div>
           </div>
           {/* <div>featured post</div> */}
           <div >
             <div className='bg-base-100 rounded-full flex p-2 gap-2 items-center mt-4 mb-4'>
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>
-              <input type="text" placeholder='search Post' className='bg-transparent outline-none' />
+              <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search-icon lucide-search"><path d="m21 21-4.34-4.34" /><circle cx="11" cy="11" r="8" /></svg>
+              <input type="text" placeholder='search Post by Category' value={searchFilter} className='bg-transparent outline-none'  onChange={(e)=>setSearchFilter(e.target.value)}/>
             </div>
             {/* <div className=' rounded-2xl my-4 bg-base-100 p-2 '>
               <h1 className='text-center bg-[#bbbb8e] font-semibold text-white rounded-xl'>Categories</h1>

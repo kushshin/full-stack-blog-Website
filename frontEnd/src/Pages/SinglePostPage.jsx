@@ -91,11 +91,11 @@ navigate("/editPost", { state: { id } });
           <li className='hover:text-[#818147]'><a>Blog Article</a></li>
         </ul>
       </div>
-      <div className="card lg:card-side bg-base-100 shadow-sm rounded-none w-[90%] m-auto my-4">
+      <div className="card lg:card bg-base-100 shadow-sm rounded-none w-[90%] m-auto my-4">
         <figure>
           <img
             src={post.image}
-            alt="Album" className='w-[600px] h-[550px] ' />
+            alt="Album" className='w-full h-[550px] object-cover' />
         </figure>
         <div className="card-body">
           <div className='flex justify-between gap-2'>
