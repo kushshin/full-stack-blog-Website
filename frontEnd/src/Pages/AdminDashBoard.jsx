@@ -36,8 +36,8 @@ function AdminDashBoard() {
         </div>
       </div>
       <div className=' flex-1  bg-base-100 rounded-2xl ' >
-        right
-        <div className='m-4 border-2 '>
+        {/* right */}
+        <div className='m-4 '>
             <div className="stats shadow  flex flex-shrink md:flex gap-8 ">
               <div className="stat">
                 <div className="stat-title">Total Posts</div>

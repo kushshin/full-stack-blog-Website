@@ -13,7 +13,7 @@ function AllBlogs() {
   const dispatch = useDispatch()
   const userId = window.localStorage.getItem('userID')
   const { posts, loading, error } = useSelector((state) => state.posts);
-  const [newPost, setNewPost] = useState([])
+  // const [newPost, setNewPost] = useState([])
 
 
   // console.log(posts)
@@ -21,48 +21,48 @@ function AllBlogs() {
     dispatch(fetchPosts())
   }, [dispatch])
 
-  useEffect(() => {
-    setNewPost(posts);
-  }, [posts]);
+  // useEffect(() => {
+  //   setNewPost(posts);
+  // }, [posts]);
 
     const [categories, setCategories] = useState(["All", "Web Development", "Development", "Marketing", "Search Engines", "Databases"])
   const [selectedCategory, setSelectedCategory] = useState("All");
-    const filteredCategory = selectedCategory && selectedCategory !== "All" ? newPost.filter((post) => post.categories === selectedCategory) : newPost;
-    console.log(filteredCategory)
+    const filteredCategory = selectedCategory && selectedCategory !== "All" ? posts.filter((post) => post.categories === selectedCategory) : posts;
+    // console.log(filteredCategory)
 
       const handleCategory = (category) => {
     setSelectedCategory(category)
   };
 
-  const likePost = async (postId) => {
-    try {
-      const res = await LikePost(postId)
-      console.log(res.data)
-      const updatedPost = res.data.likedPost
-      setNewPost(prevPosts =>
-        prevPosts.map(post =>
-          post._id === updatedPost._id ? updatedPost : post
-        )
-      );
-      // dispatch(fetchPosts())
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const disLikePost = async (postId) => {
-    try {
-      const res = await DisLikePost(postId)
-      const updatedPost = res.data.dislikedPost
-      setNewPost(prevPosts =>
-        prevPosts.map(post =>
-          post._id === updatedPost._id ? updatedPost : post
-        )
-      );
-      //  dispatch(fetchPosts()); 
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  // const likePost = async (postId) => {
+  //   try {
+  //     const res = await LikePost(postId)
+  //     console.log(res.data)
+  //     const updatedPost = res.data.likedPost
+  //     setNewPost(prevPosts =>
+  //       prevPosts.map(post =>
+  //         post._id === updatedPost._id ? updatedPost : post
+  //       )
+  //     );
+  //     // dispatch(fetchPosts())
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
+  // const disLikePost = async (postId) => {
+  //   try {
+  //     const res = await DisLikePost(postId)
+  //     const updatedPost = res.data.dislikedPost
+  //     setNewPost(prevPosts =>
+  //       prevPosts.map(post =>
+  //         post._id === updatedPost._id ? updatedPost : post
+  //       )
+  //     );
+  //     //  dispatch(fetchPosts()); 
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  // }
 
   if (loading) return <p>Loading posts...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -94,14 +94,9 @@ function AllBlogs() {
               <p>{post.shortDesc}</p>
               <div className='flex items-center gap-1'>
                 <FaRegComment />
-                <p>{post.comments.length}</p>
-                {/* <div className='text-red-700' onClick={()=>likePost(post._id,userId)}>{post.likes.includes(userId) ?<IoIosHeart />:<IoIosHeartEmpty />}</div> */}
-                {post.likes.includes(userId) ? (
-                  <div className='text-red-700'><IoIosHeart onClick={() => disLikePost(post._id)} /> </div>
-                ) : (
-                  <div><IoIosHeartEmpty onClick={() => likePost(post._id)} /></div>
-                )}
-                <span>{post.likes.length} {post.likes.length > 1 ? "Likes" : "Like"}</span>
+                <span>{post.comments.length}</span>
+                {post.likes.includes(userId) ?<IoIosHeart className='text-[17px] text-red-500' />:<IoIosHeartEmpty className='text-[17px]' />}
+                <span >{post.likes.length}</span>
               </div>
               <div className="card-actions justify-end">
                 <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>

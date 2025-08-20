@@ -45,7 +45,7 @@ function WritePost() {
             setShortDesc("")
             setImage(null)
             setCategory("")
-            navigate("/")
+            navigate(`/profile/${userId}`)
          
         } catch (error) {
           console.log(error)

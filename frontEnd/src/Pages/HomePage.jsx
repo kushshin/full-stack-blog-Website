@@ -39,9 +39,10 @@ function HomePage() {
           <p className='text-[#b1b16e] text-[20px]'>Technology refers to the application of scientific knowledge for practical purposes, enabling innovation and progress across various fields. It enhances communication, automates tasks, improves healthcare, and drives economic growth. Constantly evolving, technology shapes how we live, work, and interact, playing a vital role in modern society and future development.</p>
         </div>
             <h1 className='text-center text-[#b1b16e] font-semibold '>ALL POSTS</h1>
-        <div className=' flex flex-col justify-center md:flex-row  md:justify-around  px-8 m-4'>
+        <div className=' flex flex-col-reverse justify-center md:flex-row  md:justify-around  px-8 m-4'>
           <div className=' flex-1 md:mr-8'>
             <div><AllPosts filteredPosts={filteredPosts} /></div>
+              <div className='block md:hidden'><RecentPosts posts={posts} /></div>
           </div>
           {/* <div>featured post</div> */}
           <div >
@@ -62,7 +63,7 @@ function HomePage() {
                 </ul>
               </div>
             </div> */}
-            <div><RecentPosts posts={posts} /></div>
+            <div className='hidden md:block'><RecentPosts posts={posts} /></div>
           </div>
         </div>
       </div>
