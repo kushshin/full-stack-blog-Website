@@ -31,7 +31,9 @@ function UserProfile() {
     const { posts, loading, error } = useSelector((state) => state.posts);
     const { users } = useSelector((state) => state.users);
 
-    const getAllUserPosts = posts.filter((post) => post.postedBy._id === id)
+    const getAllUser = posts.filter((post) => post.postedBy._id === id)
+    const userLikes = (getAllUser.map((like)=>like.likes))
+    const userComments = (getAllUser.map((comment)=>comment.comments))
     const getUser = users.filter((user) => user._id === id)
 
 
@@ -48,31 +50,30 @@ function UserProfile() {
             <div className='md:flex mx-8  gap-4 my-4 '>
                 <div className=' w-full md:w-[250px] bg-base-100 rounded-2xl'>
                     <div>
-                        <div className='  font-semibold text-center'>ADMIN</div>
-                        <ul className='flex flex-wrap justify-center gap-3 md:flex md:flex-col  m-8 md:gap-y-8 md:justify-start'>
-                            <li className={`flex items-center gap-2 ${activeTab === "DashBoard" ? "text-blue-500" : "text-gray-600"
-                                }`} onClick={() => setActiveTab("DashBoard")}><MdDashboard /><span>DashBoard</span></li>
-                            <li className={`flex items-center gap-2 ${activeTab === "MyPosts" ? "text-blue-500" : "text-gray-600"
+                        <div className=' text-center m-4'>{username.toUpperCase()}</div>
+                        <ul className='flex flex-wrap justify-center gap-3 md:flex md:flex-col   m-4 p-2 md:m-8  md:gap-y-8 md:justify-start text-[12px] md:text-[15px]'>
+                            <li className={`flex items-center   justify-center p-1 md:gap-2 ${activeTab === "DashBoard" ? " rounded-lg bg-[#818147] text-white" : "text-gray-600"
+                                }`} onClick={() => setActiveTab("DashBoard")}><MdDashboard /><span >DashBoard</span></li>
+                            <li className={`flex items-center   justify-center p-1 md:gap-2 ${activeTab === "MyPosts" ? "rounded-lg bg-[#818147] text-white" : "text-gray-600"
                                 }`} onClick={() => setActiveTab("MyPosts")}><BsFilePost /><span>MyPosts</span></li>
-                            <li className={`flex items-center gap-2 ${activeTab === "CreateBlog" ? "text-blue-500" : "text-gray-600"
+                            <li className={`flex items-center   justify-center  p-1 md:gap-2 ${activeTab === "CreateBlog" ? "rounded-lg bg-[#818147] text-white" : "text-gray-600"
                                 }`} onClick={() => setActiveTab("CreateBlog")}><IoIosCreate /><span>Create Blog</span></li>
-                            {/* <li className='flex items-center gap-2'><FaUser /><span>Users</span></li> */}
-                            <li className={`flex items-center gap-2 ${activeTab === "Settings" ? "text-blue-500" : "text-gray-600"
+                            <li className={`flex items-center justify-center  p-1 md:gap-2 ${activeTab === "Settings" ? "rounded-lg bg-[#818147] text-white" : "text-gray-600"
                                 }`} onClick={() => setActiveTab("Settings")}><IoSettingsSharp />Settings<span></span></li>
                         </ul>
                     </div>
                 </div>
                 <div className=' flex-1  bg-base-100 rounded-2xl ' >
                     {/* right */}
-                    {activeTab === "DashBoard" && <div className='m-4 '>
+                    {activeTab === "DashBoard" && <div className=' pt-1 md:m-4 '>
                         {getUser.map((user) =>
                             <div>
-                                <div className="  bg-cover bg-center text-white  rounded-t-3xl w-[450px] h-[150px] md:w-[950px] md:h-[300px] flex flex-col items-center justify-center text-center mx-4 md:mx-8  mt-8 " style={{ backgroundImage: `url(${bgImage})` }}>
-                                    {user.profilePic ? <Link to='/EditUserProfile'><img src={user.profilePic} alt="" className='bg-cover md:object-cover   rounded-full border-2 w-[100px] h-[100px]  top-48  left-16  absolute md:top-80 md:left-[420px]' /></Link> :
+                                <div className="  bg-cover bg-center text-white  rounded-t-3xl w-[400px] h-[150px] md:w-[950px] md:h-[300px] flex flex-col items-center justify-center text-center mx-4 md:mx-8  mt-8 " style={{ backgroundImage: `url(${bgImage})` }}>
+                                    {user.profilePic ? <Link to='/EditUserProfile'><img src={user.profilePic} alt="" className='bg-cover md:object-cover   rounded-full border-2 w-[70px] h-[70px]  md:w-[100px] md:h-[100px] top-96  left-16  absolute md:top-80 md:left-[420px]' /></Link> :
                                         <div className=' w-[100px] h-[100px]  rounded-full border-2 bg-gray-500   top-48  left-16  absolute md:top-80 md:left-20 flex items-center justify-center'><span className='text-[28px] md:text-[36px] '> {user.username[0]}</span></div>}
-                                    <Link to='/EditUserProfile'><div className='absolute left-36 top-64 md:left-[500px] md:top-96 text-[#eef2f5] text-[15px] md:text-[20px]'> <FaCamera /></div></Link>
+                                    <Link to='/EditUserProfile'><div className='absolute left-32 top-[420px] md:left-[500px] md:top-96 text-[#eef2f5] text-[15px] md:text-[20px]'> <FaCamera /></div></Link>
                                 </div>
-                                <div className=' w-[450px] h-[100px] md:w-[950px]  md:h-[100px] bg-[#cfcf90] mx-4 md:mx-8 mb-8 rounded-b-3xl '>
+                                <div className=' w-[400px] h-[100px] md:w-[950px]  md:h-[100px] bg-[#cfcf90] mx-4 md:mx-8 mb-8 rounded-b-3xl '>
                                     <div className='text-white  p-14 md:p-10 text-[10px] md:text-[16px]'>
                                         <h1 className=' flex items-center gap-2'>{user.username}  <Link to='/EditUserProfile'><FiEdit2 /></Link></h1>
                                         <h1 className=' flex items-center gap-2'>{user.email} <Link to='/EditUserProfile'><FiEdit2 /></Link></h1>
@@ -80,29 +81,29 @@ function UserProfile() {
                                 </div>
                             </div>
                         )}
-                        <div className="stats shadow  flex flex-shrink md:flex gap-8 ">
-                            <div className="stat">
-                                <div className="stat-title">Total Posts</div>
-                                <div className="stat-value text-primary">{posts.length}</div>
-                                <div className="stat-desc">21% more than last month</div>
+                        <div className=" shadow  flex  md:flex gap-8 ">
+                            <div className="stat flex flex-col items-center">
+                                <div className="stat-title text-[12px]  md:text-[18px]">Total Posts</div>
+                                <div className="stat-value text-[#8f8f5b]">{getAllUser.length}</div>
+                                {/* <div className="stat-desc">21% more than last month</div> */}
                             </div>
-                            <div className="stat ">
-                                <div className="stat-title">Total Likes</div>
-                                {/* <div className="stat-value text-primary">{likes.flat().length}</div> */}
-                                <div className="stat-desc">21% more than last month</div>
+                            <div className="stat flex flex-col items-center">
+                                <div className="stat-title text-[12px]  md:text-[18px]">Total Likes</div>
+                                <div className="stat-value text-[#8f8f5b]">{userLikes.flat().length}</div>
+                                {/* <div className="stat-desc">21% more than last month</div> */}
                             </div>
-                            <div className="stat  ">
-                                <div className="stat-title">Total Comments</div>
-                                {/* <div className="stat-value text-primary">{comments.flat().length}</div> */}
-                                <div className="stat-desc">21% more than last month</div>
+                            <div className="stat flex flex-col items-center ">
+                                <div className="stat-title text-[12px]  md:text-[18px]">Total Comments</div>
+                                <div className="stat-value text-[#8f8f5b]">{userComments.flat().length}</div>
+                                {/* <div className="stat-desc">21% more than last month</div> */}
                             </div>
                         </div>
                     </div>}
                     {activeTab === "MyPosts" && (
-                        getAllUserPosts.length === 0 ? (
+                        getAllUser.length === 0 ? (
                             <h1>Write a Blog <Link to="/writePost">Go Back</Link></h1>
                         ) : (
-                            getAllUserPosts.map((post) => (
+                            getAllUser.map((post) => (
                                 <div key={post._id} className="card lg:card-side bg-base-100 shadow-sm mx-4 mt-4 mb-4 rounded-3xl">
                                     <figure>
                                         <img className="w-[400px] h-[350px]" src={post.image} alt="Album" />

@@ -3,6 +3,8 @@ import { useAuth } from '../Context/AuthContext.jsx';
 import { createPost } from '../API Services/PostAPI.js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { toast, Bounce } from 'react-toastify'
+import ReactQuill from "react-quill-new";
+import "react-quill-new/dist/quill.snow.css";
 
 function WritePost() {
     const { username } = useAuth()
@@ -24,6 +26,16 @@ function WritePost() {
         fileInputRef.current.click()
     }
 
+    const modules = {
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
+      [{ list: "ordered" }, { list: "bullet" }],
+      ["blockquote", "code-block"],
+      ["link", "image"],
+      ["clean"],
+    ],
+  };
 
     const handlePost = async (e) => {
         try {
@@ -53,12 +65,12 @@ function WritePost() {
     }
     return (
         <div>
-            <div className="breadcrumbs  text-[12px] md:text-sm  px-12 md:px-32">
+            {/* <div className="breadcrumbs  text-[12px] md:text-sm  px-12 md:px-32">
                 <ul>
                     <li><a href='/'>Home</a></li>
                     <li><a>Write</a></li>
                 </ul>
-            </div>
+            </div> */}
             <form onSubmit={handlePost} encType="multipart/form-data" >
                 <div className=' flex flex-col gap-y-4  px-12 md:px-32 py-4 text-[#a0a05f]'>
                     <h1 className='text-center'> Create New Blog</h1>
@@ -103,8 +115,10 @@ function WritePost() {
                         <option>Databases</option>
                     </select>
                     <input type="text" placeholder="Short Description" className="input w-[400px] md:w-full" value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} />
-                    <textarea placeholder="write your blog" className="textarea w-[400px] md:w-full h-[300px]" value={desc} onChange={(e) => setDesc(e.target.value)}></textarea>
-                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'> Post</button>
+              <div className='bg-base-100 p-2 h-[360px] rounded-lg'>
+                      <ReactQuill placeholder="write your blog" modules={modules} className=" w-[390px]  h-[275px] md:w-full md:h-[300px]" value={desc} onChange={(value) => setDesc(value)}/>    
+                </div>
+                    <button className='py-2 px-4  mt-10 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'> Post</button>
 
                 </div>
             </form>

@@ -41,7 +41,7 @@ function Navbar() {
           <div className=' flex flex-col items-center gap-8 text-[#bbbb8e] mt-4'>
             <a href="/" className='text-[#a0a05f]'>Home </a>
             <a href="/about">About Us</a>
-            {username ? <a href="/writePost">Write </a> : ""}
+            {/* {username ? <a href="/writePost">Write </a> : ""} */}
             <a href="/AllBlogs">Blog </a>
             <a href="/contact">Contact</a>
           {role === "admin" ?   <a href="/AdmindashBoard">DashBoard</a> : null}
@@ -56,7 +56,7 @@ function Navbar() {
       <div className=' hidden md:flex tems-center gap-4 text-[#bbbb8e]'>
         <a href="/" className='text-[#a0a05f]'>Home </a>
         <a href="/about">About Us</a>
-        {username ? <a href="/writePost">Write </a> : ""}
+        {/* {username ? <a href="/writePost">Write </a> : ""} */}
         <a href="/AllBlogs">Blog </a>
         <a href="/contact">Contact</a>
       </div>
