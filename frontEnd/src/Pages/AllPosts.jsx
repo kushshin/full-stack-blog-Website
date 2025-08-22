@@ -28,8 +28,8 @@ function AllPosts({filteredPosts}) {
     <div>
 {filteredPosts.slice(0,showMore).map((post)=>(
         <div key={post.id} className="card lg:card-side  shadow-sm mt-4 mb-4  rounded-2xl" >
-  <figure>
-    <img className='w-[450px] h-[350px]'
+  <figure  className="w-[400px] h-[350px] flex-shrink-0 ">
+    <img className='w-full h-full object-cover'
       src={post.image}
       alt="Album" />
   </figure>

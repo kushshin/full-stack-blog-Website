@@ -72,7 +72,7 @@ function WritePost() {
                 </ul>
             </div> */}
             <form onSubmit={handlePost} encType="multipart/form-data" >
-                <div className=' flex flex-col gap-y-4  px-12 md:px-32 py-4 text-[#a0a05f]'>
+                <div className=' flex flex-col gap-y-4  justify-center  px-12 md:px-32 py-4 text-[#a0a05f]'>
                     <h1 className='text-center'> Create New Blog</h1>
                     <input
                         type="file"
@@ -103,9 +103,9 @@ function WritePost() {
                             />
                         </div>
                     )}
-                    <input type="text" placeholder="Blog Title" className="input  w-[400px] md:w-full" value={title} onChange={(e) => setTitle(e.target.value)} />
+                    <input type="text" placeholder="Blog Title" className="input  w-[350px]  md:w-full" value={title} onChange={(e) => setTitle(e.target.value)} />
                     {/* <input type="text" placeholder="Slug (optional)" className="input w-full" /> */}
-                    <select className="select w-[400px] md:w-full" value={category} onChange={(e) => setCategory(e.target.value)}>
+                    <select className="select w-[350px] md:w-full" value={category} onChange={(e) => setCategory(e.target.value)}>
                         <option  >Select Category</option>
                         <option>All</option>
                         <option>Web Development</option>
@@ -114,9 +114,9 @@ function WritePost() {
                         <option>Marketing</option>
                         <option>Databases</option>
                     </select>
-                    <input type="text" placeholder="Short Description" className="input w-[400px] md:w-full" value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} />
+                    <input type="text" placeholder="Short Description" className="input w-[350px] md:w-full" value={shortDesc} onChange={(e) => setShortDesc(e.target.value)} />
               <div className='bg-base-100 p-2 h-[360px] rounded-lg'>
-                      <ReactQuill placeholder="write your blog" modules={modules} className=" w-[390px]  h-[275px] md:w-full md:h-[300px]" value={desc} onChange={(value) => setDesc(value)}/>    
+                      <ReactQuill placeholder="write your blog" modules={modules} className=" w-[340px]  h-[275px] md:w-full md:h-[300px]" value={desc} onChange={(value) => setDesc(value)}/>    
                 </div>
                     <button className='py-2 px-4  mt-10 rounded-2xl bg-[#bbbb8e] text-white text' type='submit'> Post</button>
 

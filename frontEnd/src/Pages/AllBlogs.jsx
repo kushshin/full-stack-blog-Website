@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import { FaRegComment } from "react-icons/fa";
 import { IoIosHeart } from "react-icons/io";
 import { IoIosHeartEmpty } from "react-icons/io";
+import RecentPosts from './RecentPosts'
 
 
 
@@ -34,35 +35,6 @@ function AllBlogs() {
     setSelectedCategory(category)
   };
 
-  // const likePost = async (postId) => {
-  //   try {
-  //     const res = await LikePost(postId)
-  //     console.log(res.data)
-  //     const updatedPost = res.data.likedPost
-  //     setNewPost(prevPosts =>
-  //       prevPosts.map(post =>
-  //         post._id === updatedPost._id ? updatedPost : post
-  //       )
-  //     );
-  //     // dispatch(fetchPosts())
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-  // const disLikePost = async (postId) => {
-  //   try {
-  //     const res = await DisLikePost(postId)
-  //     const updatedPost = res.data.dislikedPost
-  //     setNewPost(prevPosts =>
-  //       prevPosts.map(post =>
-  //         post._id === updatedPost._id ? updatedPost : post
-  //       )
-  //     );
-  //     //  dispatch(fetchPosts()); 
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   if (loading) return <p>Loading posts...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -75,16 +47,16 @@ function AllBlogs() {
           <li className='hover:text-[#818147]'><a>Blog</a></li>
         </ul>
       </div>
-      <div className='  flex flex-col-reverse md:flex md:flex-row justify-center items-center md:items-start  gap-4 '>
+      <div className='  flex flex-col-reverse md:flex md:flex-row justify-center items-center md:items-start  gap-4  '>
       <div className='flex flex-col gap-4 '>
         {filteredCategory.map((post, id) => (
-          <div key={id} className="card lg:card-side shadow-sm mt-4 mb-4 rounded-2xl  flex" >
-            <figure>
-              <img className='w-[450px] h-[350px]'
+          <div key={id} className="card lg:card-side shadow-sm mt-4 mb-4 rounded-2xl  flex  max-w-[800px]" >
+            <figure className="w-[400px] h-[350px] flex-shrink-0 ">
+              <img className='w-full h-full object-cover'
                 src={post.image}
                 alt="Album" />
             </figure>
-            <div className="card-body">
+            <div className="card-body  max-w-[380px] break-words">
               <h4>Category : {post.categories}</h4>
               <h2 className="card-title">{post.title}</h2>
               <div className='flex gap-2 items-center'>
