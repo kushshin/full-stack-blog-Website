@@ -58,7 +58,7 @@ console.log("Post to be saved:", editedPost);
 
 const AllPost = async(req,res,next)=>{
     try {
-        const allPost = await PostModel.find().populate("postedBy","profilePic")
+        const allPost = await PostModel.find().populate("postedBy","profilePic") .populate("comments.user", "username profilePic");
          res.status(200).json({success :true, message : 'fetched All post successfully',post : allPost})  
     } catch (error) {
          next(new ErrorResponse('failed to fetch all posts',400))
@@ -115,12 +115,44 @@ const AddComments = async(req,res,next)=>{
         user:req.body.user
     }
     try {
-         const addComment = await PostModel.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, { new: true })
+         const addComment = await PostModel.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, { new: true }).populate("comments.user", "username profilePic");
          res.status(200).json({success:true, message:"commented successfully", comment:addComment})
     } catch (error) {
         next(new ErrorResponse('failed to post comment',500))
     }
 }
+
+ const UpdateComments = async (req, res) => {
+  try {
+    const { postId, commentId } = req.params;
+    const { text } = req.body;
+
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      return next(new ErrorResponse("post not found"),404)
+    }
+
+    const comment = post.comments.id(commentId);
+    if (!comment) {
+       return next(new ErrorResponse("comment not found"),404)
+    }
+    if (comment.user.toString() !== req.user.id) {
+       return next(new ErrorResponse("Unauthorized"),403)
+    }
+    comment.text = text;
+
+    await post.save();
+
+    res.status(200).json({
+      message: "Comment updated successfully",
+      updatedPost: post, 
+    });
+  } catch (error) {
+    console.error(error);
+    next(new ErrorResponse("internal server  error"),500)
+  }
+};
+
 
 // delete comment
 const DeleteComments = async(req,res,next)=>{
@@ -174,4 +206,4 @@ const dislikePost =async(req,res,next)=>{
     }
 }
 
-export{createPost,updatePost,AllPost,SinglePost,deletePost,AddComments,DeleteComments,likePost,dislikePost}
+export{createPost,updatePost,AllPost,SinglePost,deletePost,AddComments,DeleteComments,UpdateComments,likePost,dislikePost}

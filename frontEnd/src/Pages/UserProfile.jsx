@@ -101,7 +101,7 @@ function UserProfile() {
                     </div>}
                     {activeTab === "MyPosts" && (
                         getAllUser.length === 0 ? (
-                            <h1>Write a Blog <Link to="/writePost">Go Back</Link></h1>
+                            <h1 className='flex justify-center items-center p-6  font-semibold text-[24px] '>No Blog to show </h1>
                         ) : (
                             getAllUser.map((post) => (
                                 <div key={post._id} className="card lg:card-side bg-base-100 shadow-sm mx-4 mt-4 pt-2 mb-4 rounded-3xl max-w-full">
