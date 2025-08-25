@@ -54,7 +54,7 @@ const loginUser = async(req,res,next)=>{
     
             // res.cookie("Token",token)
             res.cookie("Token",token)
-            res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,success :true, message : 'user loggedIn successfully!! '})
+            res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,IsBlocked : user.IsBlocked,success :true, message : 'user loggedIn successfully!! '})
     } catch (error) {
            res.status(500).json(error , "internal server Error")
     }

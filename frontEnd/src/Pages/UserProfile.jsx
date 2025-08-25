@@ -21,6 +21,7 @@ import EdituserProfile from './EdituserProfile.jsx';
 import { IoIosHeart } from "react-icons/io";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { FaRegComment } from "react-icons/fa";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 
 function UserProfile() {
     const [activeTab, setActiveTab] = useState("DashBoard")
@@ -31,7 +32,7 @@ function UserProfile() {
     const { posts, loading, error } = useSelector((state) => state.posts);
     const { users } = useSelector((state) => state.users);
 
-    const getAllUser = posts.filter((post) => post.postedBy._id === id)
+    const getAllUser = posts.filter((post) => post.postedBy?._id === id)
     const userLikes = (getAllUser.map((like)=>like.likes))
     const userComments = (getAllUser.map((comment)=>comment.comments))
     const getUser = users.filter((user) => user._id === id)
@@ -128,6 +129,8 @@ function UserProfile() {
                                                 <IoIosHeartEmpty className="text-[17px]" />
                                             )}
                                             <span>{post.likes.length}</span>
+                                             <MdOutlineRemoveRedEye />
+                                                              <span>{post.views}</span>
                                         </div>
                                         <div className="card-actions justify-end">
                                             {username ? (

@@ -13,7 +13,7 @@ function SinglePostPage() {
   const { id } = useParams()
   const { posts } = useSelector((state) => state.posts)
   const dispatch = useDispatch()
-  const { username } = useAuth()
+  const { username ,role} = useAuth()
   const [comment, setComment] = useState("")
   const [editCommentId, setEditCommentId] = useState(null)
   const [newPost, setNewPost] = useState(null)
@@ -131,7 +131,7 @@ const disLikePost = async (postId) => {
         <ul className='text-[#bbbb8e] '>
           <li className='hover:text-[#818147]'><a href='/'>Home</a></li>
           <li className='hover:text-[#818147]'><a href='/AllBlogs'>Blog</a></li>
-          <li className='hover:text-[#818147]'><a href={`/profile/${userId}`}>Profile</a></li>
+    {role === "user"  ? <li className='hover:text-[#818147]'><a href={`/profile/${userId}`}>Profile</a></li>:<li className='hover:text-[#818147]'><a href="/AdmindashBoard">adminProfile</a></li>}
           <li className='hover:text-[#818147]'><a>Blog Article</a></li>
         </ul>
       </div>
@@ -218,7 +218,7 @@ const disLikePost = async (postId) => {
             <div key={id}  className='bg-base-100 rounded-lg p-2'>
               <div className='flex gap-4 items-center'>
                 <div className='flex  gap-4 items-center'>
-                  <img src={comment.user.profilePic} alt="" className='w-10 h-10 rounded-full' />
+                  <img src={comment.user?.profilePic} alt="" className='w-10 h-10 rounded-full' />
                   <h5 className='text-[#77772e]'>{comment.username}</h5>
                   <h4 className='text-[12px]'>{format(new Date(comment.createdAt), "dd MMMM yyyy")}</h4>
                 </div>

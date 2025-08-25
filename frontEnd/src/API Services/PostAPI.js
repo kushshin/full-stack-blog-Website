@@ -17,4 +17,6 @@ export const UpdatedComments=(postId,commentId,commentData)=>API.patch(`/post/${
 export const LikePost=(postId)=>API.put(`/post/likePost/${postId}`)
 export const DisLikePost=(postId)=>API.put(`/post/dislikePost/${postId}`)
 export const DeletePost=(postId)=>API.delete(`/post/deletePost/${postId}`)
+export const DeleteSelectedPost=(postId)=>API.delete(`/post/deleteSelectedPost/${postId}`)
 export const SinglePost=(postId)=>API.get(`/post/singlePost/${postId}`)
+export const HandleViews=(postId)=>API.put(`/post/handleViews/${postId}`)

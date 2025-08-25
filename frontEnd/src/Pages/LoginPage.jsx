@@ -17,8 +17,24 @@ function LoginPage() {
     try {
       const res = await loginUser({ email, password })
       console.log(res.data)
+     if (res.data?.IsBlocked) {
+        toast.error("🚫 Your account is blocked by admin.", {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "colored",
+          transition: Bounce,
+        });
+        setEmail("")
+         setPassword("")
+        return; // stop login process here
+      }
       login(res.data.username);
       navigate("/");
+
     const msg = res.data.message
     if (msg) {
        toast.success(msg, {

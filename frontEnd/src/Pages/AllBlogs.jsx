@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { LikePost, DisLikePost } from '../API Services/PostAPI'
+import { HandleViews } from '../API Services/PostAPI'
 import { fetchPosts } from '../Redux/postSlice'
 import { Link } from 'react-router-dom'
 import { FaRegComment } from "react-icons/fa";
 import { IoIosHeart } from "react-icons/io";
 import { IoIosHeartEmpty } from "react-icons/io";
+import { MdOutlineRemoveRedEye } from "react-icons/md";
 import RecentPosts from './RecentPosts'
 
 
@@ -26,14 +27,25 @@ function AllBlogs() {
   //   setNewPost(posts);
   // }, [posts]);
 
-    const [categories, setCategories] = useState(["All", "Web Development", "Development", "Marketing", "Search Engines", "Databases"])
+  const [categories, setCategories] = useState(["All", "Web Development", "Development", "Marketing", "Search Engines", "Databases"])
   const [selectedCategory, setSelectedCategory] = useState("All");
-    const filteredCategory = selectedCategory && selectedCategory !== "All" ? posts.filter((post) => post.categories === selectedCategory) : posts;
-    // console.log(filteredCategory)
+  const filteredCategory = selectedCategory && selectedCategory !== "All" ? posts.filter((post) => post.categories === selectedCategory) : posts;
+  // console.log(filteredCategory)
 
-      const handleCategory = (category) => {
+  const handleCategory = (category) => {
     setSelectedCategory(category)
   };
+
+  const handleViews = async (id) => {
+    try {
+      const res = await HandleViews(id)
+      console.log(res.data)
+      dispatch(fetchPosts())
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
 
   if (loading) return <p>Loading posts...</p>;
@@ -48,49 +60,71 @@ function AllBlogs() {
         </ul>
       </div>
       <div className='  flex flex-col-reverse md:flex md:flex-row justify-center items-center md:items-start  gap-4  '>
-      <div className='flex flex-col gap-4 '>
-        {filteredCategory.map((post, id) => (
-          <div key={id} className="card lg:card-side shadow-sm mt-4 mb-4 rounded-2xl  flex  max-w-[800px]" >
-            <figure className="w-[400px] h-[350px] flex-shrink-0 ">
-              <img className='w-full h-full object-cover'
-                src={post.image}
-                alt="Album" />
-            </figure>
-            <div className="card-body  max-w-[380px] break-words">
-              <h4>Category : {post.categories}</h4>
-              <h2 className="card-title">{post.title}</h2>
-              <div className='flex gap-2 items-center'>
-                <h4 className='text-[10px]'>{new Date(post.createdAt).toLocaleDateString()}</h4><span>/</span>
-                <h5 className='text=[12px]'>BY {post.username.toUpperCase()}</h5>
-              </div>
-              <p>{post.shortDesc}</p>
-              <div className='flex items-center gap-1'>
-                <FaRegComment />
-                <span>{post.comments.length}</span>
-                {post.likes.includes(userId) ?<IoIosHeart className='text-[17px] text-red-500' />:<IoIosHeartEmpty className='text-[17px]' />}
-                <span >{post.likes.length}</span>
-              </div>
-              <div className="card-actions justify-end">
-                <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white">Read More</button></Link>
+        <div className='flex flex-col gap-4 '>
+          {filteredCategory.map((post, id) => (
+            <div key={id} className="card lg:card-side shadow-sm mt-4 mb-4 rounded-2xl  flex  max-w-[800px]" >
+              <figure className="w-[400px] h-[350px] flex-shrink-0 ">
+                <img className='w-full h-full object-cover'
+                  src={post.image}
+                  alt="Album" />
+              </figure>
+              <div className="card-body  max-w-[380px] break-words">
+                <h4>Category : {post.categories}</h4>
+                <h2 className="card-title">{post.title}</h2>
+                <div className='flex gap-2 items-center'>
+                  <h4 className='text-[10px]'>{new Date(post.createdAt).toLocaleDateString()}</h4><span>/</span>
+                  <h5 className='text=[12px]'>BY {post.username.toUpperCase()}</h5>
+                </div>
+                <p>{post.shortDesc}</p>
+                <div className='flex items-center gap-1'>
+                  <FaRegComment />
+                  <span>{post.comments.length}</span>
+                  {post.likes.includes(userId) ? <IoIosHeart className='text-[17px] text-red-500' /> : <IoIosHeartEmpty className='text-[17px]' />}
+                  <span >{post.likes.length}</span>
+                  <MdOutlineRemoveRedEye />
+                  <span>{post.views}</span>
+                </div>
+                <div className="card-actions justify-end">
+                  <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white" onClick={() => handleViews(post._id)}>Read More</button></Link>
+                </div>
               </div>
             </div>
+          ))}
+        </div>
+        {/* //categories */}
+        <div>
+        <div className=' rounded-2xl my-4 bg-base-100 p-2 w-[450px] h-[200px] md:w-[400px] md:h-[300px]'>
+          <h1 className='text-center bg-[#bbbb8e] font-semibold text-white rounded-xl'>Categories</h1>
+          <div className='p-4'>
+            <ul>
+              {categories.map((category) => (
+                <div className='flex justify-between text-[#b1b16e]'>
+                  <li onClick={() => handleCategory(category)} className={`cursor-pointer ${selectedCategory === category ? 'font-bold' : ''}`}>{category}</li>
+                  {selectedCategory === category ? <span>{filteredCategory.length}</span> : ""}
+                </div>
+              ))}
+            </ul>
           </div>
-        ))}
-      </div>
-      {/* //categories */}
-            <div className=' rounded-2xl my-4 bg-base-100 p-2 w-[450px] h-[200px] md:w-[400px] md:h-[300px]'>
-              <h1 className='text-center bg-[#bbbb8e] font-semibold text-white rounded-xl'>Categories</h1>
-              <div className='p-4'>
-                <ul>
-                  {categories.map((category) => (
-                    <div className='flex justify-between text-[#b1b16e]'>
-                      <li onClick={() => handleCategory(category)} className={`cursor-pointer ${selectedCategory === category ? 'font-bold' : ''}`}>{category}</li>
-                      {selectedCategory === category ? <span>{filteredCategory.length}</span> : ""}
-                    </div>
-                  ))}
-                </ul>
+        </div>
+         <div className='mt-4 hidden md:flex md:flex-col  gap-3'>
+          {posts.map((post) =>
+            <div className=" card bg-base-100 image-full  w-[430px] md:w-[400px] justify-center shadow-sm gap-2">
+              <figure>
+                <img
+                  src={post.image}
+                  alt="" />
+              </figure>
+              <div className="card-body">
+                <h2 className="card-title">{post.title}</h2>
+                <p>{post.shortDesc}</p>
+                <div className="card-actions justify-end">
+                  <Link to={`/singlePost/${post._id}`} ><button className="btn btn-primary">Read More</button></Link>
+                </div>
               </div>
             </div>
+          )}
+        </div>
+        </div>
       </div>
     </div>
   )

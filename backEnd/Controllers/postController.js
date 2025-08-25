@@ -104,6 +104,18 @@ const deletePost =async(req,res,next)=>{
         next(new ErrorResponse("failed to delete the post",400))
     }
 }
+const deleteSelectedPost =async(req,res,next)=>{
+    try {
+        await PostModel.findByIdAndDelete(req.params.id)
+        // const post = await PostModel.findById(req.params.id)
+        // // console.log(post.postedBy)
+        // if(post.postedBy.toString() === req.user.id){
+        // }
+        res.status(200).json({success:true,message:"post deleted successfully"})
+    } catch (error) {
+        next(new ErrorResponse("failed to delete the post",400))
+    }
+}
 
 
 // add comment
@@ -205,5 +217,15 @@ const dislikePost =async(req,res,next)=>{
          next(new ErrorResponse('failed to like post',500))
     }
 }
+const handlePostViews =async(req,res,next)=>{
+    console.log(req.params)
+    try {
+        // const post = await PostModel.findById(req.params.postId)
+        const handleView = await PostModel.findByIdAndUpdate(req.params.id,{$inc:{views : 1}},{new:true})
+         res.status(200).json({success:true, message:" post views", view: handleView})
+    } catch (error) {
+         next(new ErrorResponse('Failed to increase view count',500))
+    }
+}
 
-export{createPost,updatePost,AllPost,SinglePost,deletePost,AddComments,DeleteComments,UpdateComments,likePost,dislikePost}
+export{createPost,updatePost,AllPost,SinglePost,deletePost,deleteSelectedPost,AddComments,DeleteComments,UpdateComments,likePost,dislikePost,handlePostViews}

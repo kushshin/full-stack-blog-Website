@@ -37,6 +37,34 @@ console.log("Post to be saved:", editedUser);
 }
 
 
+const DeleteSingleUser = async(req,res,next)=>{
+    try {
+        const deletedUser = await UserModel.findByIdAndDelete(req.params.id)
+          res.status(200).json({ success: true, message: "user deleted successfully",dUser: deletedUser})
+    } catch (error) {
+        next(new ErrorResponse("failed to delete user",400))
+    }
+}
+
+const BlockSingleUser = async(req,res,next)=>{
+    try {
+        const blockedUser = await UserModel.findByIdAndUpdate(req.params.id,{IsBlocked : true},{new:true})
+          res.status(200).json({ success: true, message: "user blocked successfully",dUser: blockedUser})
+    } catch (error) {
+        next(new ErrorResponse("failed to block user",400))
+    }
+}
+
+const UnBlockSingleUser = async(req,res,next)=>{
+    try {
+        const unblockedUser = await UserModel.findByIdAndUpdate(req.params.id,{IsBlocked : false},{new:true})
+          res.status(200).json({ success: true, message: "user unblocked successfully",dUser: unblockedUser})
+    } catch (error) {
+        next(new ErrorResponse("failed to block user",400))
+    }
+}
 
 
-export { edituserProfile,AllUser }
+
+
+export { edituserProfile,AllUser,DeleteSingleUser ,BlockSingleUser,UnBlockSingleUser}

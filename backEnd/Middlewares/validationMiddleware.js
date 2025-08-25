@@ -34,4 +34,11 @@ const adminValidationMiddleware =async(req,res,next)=>{
     })
 }
 
-export  {validationMiddleware,adminValidationMiddleware}
+const checkBlocked = (req, res, next) => {
+  if (req.user?.isBlocked) {
+    return res.status(403).json({ error: "Your account is blocked by admin." });
+  }
+  next();
+};
+
+export  {validationMiddleware,adminValidationMiddleware,checkBlocked}
