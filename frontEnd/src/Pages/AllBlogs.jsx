@@ -7,7 +7,8 @@ import { FaRegComment } from "react-icons/fa";
 import { IoIosHeart } from "react-icons/io";
 import { IoIosHeartEmpty } from "react-icons/io";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
-import RecentPosts from './RecentPosts'
+import { toast,Bounce  } from 'react-toastify'
+import { useAuth } from '../Context/AuthContext.jsx';
 
 
 
@@ -15,7 +16,7 @@ function AllBlogs() {
   const dispatch = useDispatch()
   const userId = window.localStorage.getItem('userID')
   const { posts, loading, error } = useSelector((state) => state.posts);
-  // const [newPost, setNewPost] = useState([])
+   const {username} = useAuth()
 
 
   // console.log(posts)
@@ -38,11 +39,34 @@ function AllBlogs() {
 
   const handleViews = async (id) => {
     try {
-      const res = await HandleViews(id)
-      console.log(res.data)
+       await HandleViews(id)
       dispatch(fetchPosts())
+      const msg = res.data.message
+          if (msg) {
+             toast.success(msg, {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+      })
+            }
     } catch (error) {
-      console.log(error)
+     const msg = error?.response?.data?.message;
+           console.log(msg)
+            toast.error(msg, {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              theme: "light",
+            });
     }
 
   }
@@ -85,7 +109,34 @@ function AllBlogs() {
                   <span>{post.views}</span>
                 </div>
                 <div className="card-actions justify-end">
-                  <Link to={`/singlePost/${post._id}`}> <button className="btn  bg-[#bbbb8e] text-white" onClick={() => handleViews(post._id)}>Read More</button></Link>
+             {username ? (
+  <Link to={`/singlePost/${post._id}`}>
+    <button
+      className="btn bg-[#bbbb8e] text-white"
+      onClick={() => handleViews(post._id)}
+    >
+      Read More
+    </button>
+  </Link>
+) : (
+  <button
+    className="btn bg-[#bbbb8e] text-white"
+    onClick={() =>
+      toast.error("Login to see blog", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      })
+    }
+  >
+    Read More
+  </button>
+)}
+
                 </div>
               </div>
             </div>
@@ -106,7 +157,7 @@ function AllBlogs() {
             </ul>
           </div>
         </div>
-         <div className='mt-4 hidden md:flex md:flex-col  gap-3'>
+         <div className='box2 mt-4 hidden md:flex md:flex-col  gap-3'>
           {posts.map((post) =>
             <div className=" card bg-base-100 image-full  w-[430px] md:w-[400px] justify-center shadow-sm gap-2">
               <figure>

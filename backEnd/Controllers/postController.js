@@ -6,10 +6,10 @@ import ErrorResponse from '../Middlewares/ErrorResponse.js';
 
 //create posts
 
-const createPost = async(req,res,next)=>{
+const createPost = async (req, res, next) => {
     console.log(req.body)
     console.log(req.file)
-    const{title,desc,shortDesc,username,categories,postedBy} = req.body
+    const { title, desc, shortDesc, username, categories, postedBy } = req.body
 
     try {
         const newPost = new PostModel({
@@ -21,23 +21,23 @@ const createPost = async(req,res,next)=>{
             postedBy,
             username,
         })
-console.log("Post to be saved:", newPost);
+        // console.log("Post to be saved:", newPost);
         await newPost.save()
-       res.status(200).json({success :true, message : 'new post created', post:newPost})  
+        res.status(200).json({ success: true, message: 'new post created', post: newPost })
     } catch (error) {
-         console.error("Save failed:", error);
-      next(new ErrorResponse('failed to create post',400))
+        // console.error("Save failed:", error);
+        next(new ErrorResponse('failed to create post', 400))
     }
 }
 
 //update post
-const updatePost = async(req,res,next)=>{
-    const{title,desc,shortDesc,username,category,user} = req.body
-    console.log({body:req.body})
-    console.log({path:req.file.path})
-    
+const updatePost = async (req, res, next) => {
+    const { title, desc, shortDesc, username, category, user } = req.body
+    console.log({ body: req.body })
+    console.log({ path: req.file.path })
+
     try {
-        const editedPost = await PostModel.findByIdAndUpdate(req.params.id,{
+        const editedPost = await PostModel.findByIdAndUpdate(req.params.id, {
             title,
             desc,
             shortDesc,
@@ -45,187 +45,171 @@ const updatePost = async(req,res,next)=>{
             categories: category,
             username,
             postedBy: user
-        }, { new: true } )
-console.log("Post to be saved:", editedPost);
+        }, { new: true })
+        console.log("Post to be saved:", editedPost);
         await editedPost.save()
-       res.status(200).json({success :true, message : 'post updated successfully'})  
+        res.status(200).json({ success: true, message: 'post updated successfully' })
     } catch (error) {
-      next(new ErrorResponse('failed to update post',400))
+        next(new ErrorResponse('failed to update post', 400))
     }
 }
 
 // get all post
 
-const AllPost = async(req,res,next)=>{
+const AllPost = async (req, res, next) => {
     try {
-        const allPost = await PostModel.find().populate("postedBy","profilePic") .populate("comments.user", "username profilePic");
-         res.status(200).json({success :true, message : 'fetched All post successfully',post : allPost})  
+        const allPost = await PostModel.find().populate("postedBy", "profilePic").populate("comments.user", "username profilePic");
+        res.status(200).json({ success: true, message: 'fetched All post successfully', post: allPost })
     } catch (error) {
-         next(new ErrorResponse('failed to fetch all posts',400))
+        next(new ErrorResponse('failed to fetch all posts', 400))
     }
 }
 
-//get users all posts
-// const getAllUserPosts = async(req,res,next)=>{
-//     console.log(req.params)
-//     try {
-//         const allUserPost = await PostModel.findById({postedBy:req.params.id})
-//          res.status(200).json({success :true, message : 'fetched All user post successfully',post : allUserPost})  
-//     } catch (error) {
-//          next(new ErrorResponse('failed to fetch all posts',400))
-//     }
-// }
-
-
-
 //get single post
 
-const SinglePost=async(req,res,next)=>{
-    console.log({id:req.params.id})
+const SinglePost = async (req, res, next) => {
+    console.log({ id: req.params.id })
     try {
         const singlepost = await PostModel.findById(req.params.id)
-         res.status(200).json({success :true, message : 'fetched single post successfully',post : singlepost})  
+        res.status(200).json({ success: true, message: 'fetched single post successfully', post: singlepost })
     } catch (error) {
-         next(new ErrorResponse('failed to fetch all posts',400))
+        next(new ErrorResponse('failed to fetch single post', 400))
     }
 }
 
 // delete Post
 
-const deletePost =async(req,res,next)=>{
+const deletePost = async (req, res, next) => {
     try {
         const post = await PostModel.findById(req.params.id)
         // console.log(post.postedBy)
-        if(post.postedBy.toString() === req.user.id){
-           await PostModel.findByIdAndDelete(req.params.id)
+        if (post.postedBy.toString() === req.user.id) {
+            await PostModel.findByIdAndDelete(req.params.id)
         }
-        res.status(200).json({success:true,message:"post deleted successfully"})
+        res.status(200).json({ success: true, message: "post deleted successfully" })
     } catch (error) {
-        next(new ErrorResponse("failed to delete the post",400))
+        next(new ErrorResponse("failed to delete  post", 400))
     }
 }
-const deleteSelectedPost =async(req,res,next)=>{
+
+const deleteSelectedPost = async (req, res, next) => {
     try {
         await PostModel.findByIdAndDelete(req.params.id)
-        // const post = await PostModel.findById(req.params.id)
-        // // console.log(post.postedBy)
-        // if(post.postedBy.toString() === req.user.id){
-        // }
-        res.status(200).json({success:true,message:"post deleted successfully"})
+        res.status(200).json({ success: true, message: "post deleted successfully" })
     } catch (error) {
-        next(new ErrorResponse("failed to delete the post",400))
+        next(new ErrorResponse("failed to delete selected post", 400))
     }
 }
 
 
 // add comment
-const AddComments = async(req,res,next)=>{
+const AddComments = async (req, res, next) => {
     // console.log(req.body)
     const comment = {
         text: req.body.text,
         username: req.body.username,
-        user:req.body.user
+        user: req.body.user
     }
     try {
-         const addComment = await PostModel.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, { new: true }).populate("comments.user", "username profilePic");
-         res.status(200).json({success:true, message:"commented successfully", comment:addComment})
+        const addComment = await PostModel.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, { new: true }).populate("comments.user", "username profilePic");
+        res.status(200).json({ success: true, message: "commented successfully", comment: addComment })
     } catch (error) {
-        next(new ErrorResponse('failed to post comment',500))
+        next(new ErrorResponse('failed to add comment', 500))
     }
 }
 
- const UpdateComments = async (req, res) => {
-  try {
-    const { postId, commentId } = req.params;
-    const { text } = req.body;
+const UpdateComments = async (req, res) => {
+    try {
+        const { postId, commentId } = req.params;
+        const { text } = req.body;
 
-    const post = await PostModel.findById(postId);
-    if (!post) {
-      return next(new ErrorResponse("post not found"),404)
+        const post = await PostModel.findById(postId);
+        if (!post) {
+            return next(new ErrorResponse("post not found"), 404)
+        }
+
+        const comment = post.comments.id(commentId);
+        if (!comment) {
+            return next(new ErrorResponse("comment not found"), 404)
+        }
+        if (comment.user.toString() !== req.user.id) {
+            return next(new ErrorResponse("Unauthorized"), 403)
+        }
+        comment.text = text;
+
+        await post.save();
+
+        res.status(200).json({
+            message: "Comment updated successfully",
+            updatedPost: post,
+        });
+    } catch (error) {
+        // console.error(error);
+        next(new ErrorResponse("failed to update comment"), 400)
     }
-
-    const comment = post.comments.id(commentId);
-    if (!comment) {
-       return next(new ErrorResponse("comment not found"),404)
-    }
-    if (comment.user.toString() !== req.user.id) {
-       return next(new ErrorResponse("Unauthorized"),403)
-    }
-    comment.text = text;
-
-    await post.save();
-
-    res.status(200).json({
-      message: "Comment updated successfully",
-      updatedPost: post, 
-    });
-  } catch (error) {
-    console.error(error);
-    next(new ErrorResponse("internal server  error"),500)
-  }
 };
 
 
 // delete comment
-const DeleteComments = async(req,res,next)=>{
+const DeleteComments = async (req, res, next) => {
     // console.log({id:req.params})
 
     try {
-         const deleteComment = await PostModel.findByIdAndUpdate(req.params.postId, { $pull: {comments:{ _id: req.params.commentId } }}, { new: true })
-         res.status(200).json({success:true, message:"commented deleted successfully", comment: deleteComment})
+        const deleteComment = await PostModel.findByIdAndUpdate(req.params.postId, { $pull: { comments: { _id: req.params.commentId } } }, { new: true })
+        res.status(200).json({ success: true, message: "commented deleted successfully", comment: deleteComment })
     } catch (error) {
-        next(new ErrorResponse('failed to delete comment',500))
+        next(new ErrorResponse('failed to delete comment', 500))
     }
 }
 
 // like post
-const likePost =async(req,res,next)=>{
-console.log(req.params)
+const likePost = async (req, res, next) => {
+    console.log(req.params)
     try {
         const post = await PostModel.findById(req.params.id)
         // console.log(post)
-        if(!post){
+        if (!post) {
             return next(new ErrorResponse("post not found", 400))
         }
-      if (post.likes.includes(req.user.id)) {
+        if (post.likes.includes(req.user.id)) {
             return res.status(400).json({ success: false, message: "You already liked this post" });
         }
 
         const updatedPost = await PostModel.findByIdAndUpdate(
             req.params.id,
-            { $push: {likes: req.user.id } }, 
+            { $push: { likes: req.user.id } },
             { new: true }
         );
-console.log({liked:updatedPost})
+        // console.log({ liked: updatedPost })
         res.status(200).json({
             success: true,
             message: "Post liked",
             likedPost: updatedPost
         });
     } catch (error) {
-         next(new ErrorResponse('failed to like post',500))
+        next(new ErrorResponse('failed to like post', 500))
     }
 }
 // dislike post
-const dislikePost =async(req,res,next)=>{
+const dislikePost = async (req, res, next) => {
     console.log(req.params)
     try {
         // const post = await PostModel.findById(req.params.postId)
-        const Post = await PostModel.findByIdAndUpdate(req.params.id,{$pull:{likes : req.user.id}},{new:true})
-         res.status(200).json({success:true, message:" post disliked", dislikedPost: Post})
+        const Post = await PostModel.findByIdAndUpdate(req.params.id, { $pull: { likes: req.user.id } }, { new: true })
+        res.status(200).json({ success: true, message: " post disliked", dislikedPost: Post })
     } catch (error) {
-         next(new ErrorResponse('failed to like post',500))
+        next(new ErrorResponse('failed to like post', 500))
     }
 }
-const handlePostViews =async(req,res,next)=>{
+const handlePostViews = async (req, res, next) => {
     console.log(req.params)
     try {
         // const post = await PostModel.findById(req.params.postId)
-        const handleView = await PostModel.findByIdAndUpdate(req.params.id,{$inc:{views : 1}},{new:true})
-         res.status(200).json({success:true, message:" post views", view: handleView})
+        const handleView = await PostModel.findByIdAndUpdate(req.params.id, { $inc: { views: 1 } }, { new: true })
+        res.status(200).json({ success: true, message: " post views", view: handleView })
     } catch (error) {
-         next(new ErrorResponse('Failed to increase view count',500))
+        next(new ErrorResponse('Failed to increase view count', 500))
     }
 }
 
-export{createPost,updatePost,AllPost,SinglePost,deletePost,deleteSelectedPost,AddComments,DeleteComments,UpdateComments,likePost,dislikePost,handlePostViews}
+export { createPost, updatePost, AllPost, SinglePost, deletePost, deleteSelectedPost, AddComments, DeleteComments, UpdateComments, likePost, dislikePost, handlePostViews }

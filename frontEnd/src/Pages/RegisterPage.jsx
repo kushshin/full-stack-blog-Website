@@ -43,9 +43,7 @@ transition: Bounce,
      
       }
 } catch (error) {
-  // console.log(error.response)
   const msg = error?.response?.data?.message;
-  // setError(msg);
   toast.error(msg, {
     position: "top-center",
     autoClose: 5000,

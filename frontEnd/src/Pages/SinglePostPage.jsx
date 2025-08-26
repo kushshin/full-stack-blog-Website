@@ -8,6 +8,7 @@ import { FaRegTrashAlt } from "react-icons/fa";
 import { format } from "date-fns";
 import { FiEdit } from "react-icons/fi";
 import { IoIosHeart, IoIosHeartEmpty } from "react-icons/io";
+import DOMPurify from "dompurify";
 
 function SinglePostPage() {
   const { id } = useParams()
@@ -22,7 +23,7 @@ function SinglePostPage() {
 
   useEffect(() => {
     dispatch(fetchPosts())
-  }, [dispatch])
+  }, [dispatch,username,role])
 
   const foundPost = posts.find((p) => p._id === id);
 
@@ -131,7 +132,7 @@ const disLikePost = async (postId) => {
         <ul className='text-[#bbbb8e] '>
           <li className='hover:text-[#818147]'><a href='/'>Home</a></li>
           <li className='hover:text-[#818147]'><a href='/AllBlogs'>Blog</a></li>
-    {role === "user"  ? <li className='hover:text-[#818147]'><a href={`/profile/${userId}`}>Profile</a></li>:<li className='hover:text-[#818147]'><a href="/AdmindashBoard">adminProfile</a></li>}
+    {!role ? null : role === "user" ? <li className='hover:text-[#818147]'><a href={`/profile/${userId}`}>Profile</a></li>:<li className='hover:text-[#818147]'><a href="/AdmindashBoard">AdminProfile</a></li>}
           <li className='hover:text-[#818147]'><a>Blog Article</a></li>
         </ul>
       </div>
@@ -169,7 +170,12 @@ const disLikePost = async (postId) => {
           </div> */}
         </div>
       </div>
-      <p className='w-[90%] m-auto text-justify'>{newPost.desc}</p>
+      <div className="prose w-[90%] m-auto text-justify"
+        dangerouslySetInnerHTML={{
+          __html: DOMPurify.sanitize(newPost.desc),
+        }}>
+      {/* <p className='w-[90%] m-auto text-justify'>{newPost.desc}</p> */}
+      </div>
       <div className='m-4'>
         <h1 className="mt-6 mb-2 ml-20 text-lg font-semibold">Comments</h1>
         <div className="flex flex-col gap-y-2 items-center">

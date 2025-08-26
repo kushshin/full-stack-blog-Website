@@ -151,7 +151,7 @@ function UserProfile() {
                             ))
                         )
                     )}
-                    {activeTab === "CreateBlog" && <WritePost />}
+                    {activeTab === "CreateBlog" && <WritePost  onPostCreated={() => {setActiveTab("MyPosts") ,dispatch(fetchPosts())}}/>}
                     {activeTab === "Settings" && <EdituserProfile />}
                 </div>
             </div>

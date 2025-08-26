@@ -28,7 +28,7 @@ const registerUser = async(req,res,next)=>{
             res.status(200).json({success :true, message : 'user registered successfully!! please login',user : savedUser})
             
         } catch (error) {      
-                next (new ErrorResponse( 'user registration failed',400 ))
+               return next (new ErrorResponse( 'user registration failed',400 ))
     }
 
 }
@@ -38,17 +38,20 @@ const loginUser = async(req,res,next)=>{
     try {
         const{email,password} = req.body
          if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+      return next (new ErrorResponse( 'Email and password required',400 ))
     }
         // console.log(req.body)
         const user = await UserModel.findOne({email:email})
         // console.log(user)
     
-    if (!user || user.role !== 'user')res.status(401).json('user not found')
-    
+    if (!user || user.role !== 'user'){
+      return next(new ErrorResponse('user not found',401))
+    }
         const isValidPassword = await bcrypt.compare(password ,user.password)
     
-        if(!isValidPassword) res.status(500).json("invalid email & password")
+        if(!isValidPassword) {
+      return next(new ErrorResponse('Invalid Email and password',500))
+    }
     
             const token = jwt.sign({id : user._id, email : user.email, role: user.role, username : user.username},process.env.SECRET_KEY)
     
@@ -56,7 +59,7 @@ const loginUser = async(req,res,next)=>{
             res.cookie("Token",token)
             res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,IsBlocked : user.IsBlocked,success :true, message : 'user loggedIn successfully!! '})
     } catch (error) {
-           res.status(500).json(error , "internal server Error")
+        return next (new ErrorResponse( 'user login failed',400 ))
     }
 }
 
@@ -64,18 +67,22 @@ const adminLogin = async(req,res,next)=>{
     console.log(req.body)
     try {
         const{email,password} = req.body
-         if (!email || !password) {
-      return res.status(400).json({ error: 'Email and password are required' });
+         if (!email || !password){
+      return next(new ErrorResponse('Email and password required',400))
     }
         // console.log(req.body)
         const user = await UserModel.findOne({email:email})
         // console.log(user)
     
-    if (!user || user.role !== 'admin')res.status(401).json('user not found')
+    if (!user || user.role !== 'admin'){
+      return next(new ErrorResponse('user not found',401))
+    }
     
         const isValidPassword = await bcrypt.compare(password ,user.password)
     
-        if(!isValidPassword) res.status(500).json("invalid email & password")
+        if(!isValidPassword) {
+      return next(new ErrorResponse('Invalid email and password',500))
+    }
     
             const admintoken = jwt.sign({id : user._id, email : user.email, role: user.role, username : user.username},process.env.ADMIN_SECRET_KEY)
     
@@ -83,7 +90,7 @@ const adminLogin = async(req,res,next)=>{
             res.cookie("adminToken",admintoken)
             res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,success :true, message : 'admin loggedIn successfully!! '})
     } catch (error) {
-           res.status(500).json(error , "internal server Error")
+      return next(new ErrorResponse('admin login failed',500))
     }
 }
 

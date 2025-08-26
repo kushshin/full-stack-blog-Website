@@ -11,7 +11,7 @@ function RecentPosts({ posts }) {
     <div className='md:w-[300px] mb-4 '>
       <ul className="list bg-base-100 rounded-2xl shadow-md p-4">
         <li className=" mb-2 text-center bg-[#bbbb8e] font-semibold text-white rounded-xl">Recent Posts</li>
-        {posts.map((post) => (
+        {posts.slice(0,3).map((post) => (
           <li className="list-row text-[#b1b16e]">
             <div><img className="size-10 rounded-full" src={post.postedBy?.profilePic} /></div>
             <div>

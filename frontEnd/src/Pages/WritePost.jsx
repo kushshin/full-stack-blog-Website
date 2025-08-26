@@ -6,7 +6,7 @@ import { toast, Bounce } from 'react-toastify'
 import ReactQuill from "react-quill-new";
 import "react-quill-new/dist/quill.snow.css";
 
-function WritePost() {
+function WritePost({onPostCreated}) {
     const { username } = useAuth()
     const userId = window.localStorage.getItem("userID");
 
@@ -57,8 +57,10 @@ function WritePost() {
             setShortDesc("")
             setImage(null)
             setCategory("")
-            navigate(`/profile/${userId}`)
-         
+            // navigate(`/profile/${userId}`)
+            if(onPostCreated){
+                onPostCreated()
+            }
         } catch (error) {
           console.log(error)
         }

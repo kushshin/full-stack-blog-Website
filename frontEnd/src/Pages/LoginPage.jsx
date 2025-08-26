@@ -57,7 +57,9 @@ window.localStorage.setItem("Email", res.data.email);
 
       }
     } catch (error) {
+      // console.log(error)
        const msg = error?.response?.data?.message;
+       console.log(msg)
         toast.error(msg, {
           position: "top-center",
           autoClose: 5000,
