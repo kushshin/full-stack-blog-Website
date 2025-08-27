@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import bgImage from '../../public/img/bgcoverImage.jpg'
+import bgImage from '/img/bgcoverImage.jpg'
 import AllPosts from './AllPosts'
 import RecentPosts from './RecentPosts'
 import { FaFacebookSquare } from "react-icons/fa";
@@ -9,10 +9,13 @@ import { FaSquareWhatsapp } from "react-icons/fa6";
 import { FaSquarePinterest } from "react-icons/fa6";
 import { FaSquareYoutube } from "react-icons/fa6";
 import { useSelector } from 'react-redux'
+import { useAuth } from '../Context/AuthContext'
+import { toast,Bounce  } from 'react-toastify'
 
 function HomePage() {
   const { posts, loading, error } = useSelector((state) => state.posts);
   const [searchFilter, setSearchFilter] = useState("")
+  const{username} = useAuth()
 
 
   const filteredPosts = posts.filter((post) =>
@@ -71,8 +74,8 @@ function HomePage() {
           </div>
         </div>
       </div>
-          <div className='box2 mt-4 mb-4 flex flex-col ml-10 md:ml-0 md:flex md:flex-row  gap-2 w-[1350px]'>
-          {posts.map((post) =>
+          <div className='box2 mt-4 mb-4 ml-12 flex flex-col md:ml-0 md:flex md:flex-row  justify-center gap-6 w-full'>
+          {posts.slice(0,4).map((post) =>
             <div className=" card bg-base-100 image-full  w-[400px] md:w-[300px] ">
               <figure>
                 <img
@@ -83,7 +86,22 @@ function HomePage() {
                 <h2 className="card-title">{post.title}</h2>
                 <p>{post.shortDesc}</p>
                 <div className="card-actions justify-end">
-                  <Link to={`/singlePost/${post._id}`} ><button className="btn btn-primary">Read More</button></Link>
+              {username ?  ( <Link to={`/singlePost/${post._id}`} ><button className="btn bg-[#bbbb8e] text-white hover:text-[#47471e]">Read More</button></Link>):(  <button
+                  className="btn bg-[#bbbb8e] text-white hover:text-[#47471e]"
+                  onClick={() =>
+                    toast.error("SignUp to see blog", {
+                      position: "top-center",
+                      autoClose: 5000,
+                      hideProgressBar: false,
+                      closeOnClick: false,
+                      pauseOnHover: true,
+                      draggable: true,
+                      theme: "light",
+                    })
+                  }
+                >
+                  Read More
+                </button>)}
                 </div>
               </div>
             </div>

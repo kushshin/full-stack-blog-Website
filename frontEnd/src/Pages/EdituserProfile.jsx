@@ -5,7 +5,7 @@ import { fetchUsers } from '../Redux/userSlice.js';
 import { useNavigate } from 'react-router-dom';
 
 
-function EdituserProfile() {
+function EdituserProfile({onEditProfile}) {
 
     const userId = window.localStorage.getItem("userID");
     const[preview,setPreview] = useState("")
@@ -38,7 +38,10 @@ function EdituserProfile() {
                  setPreview("")
                 setUsername("")
                 setEmail("")
-                navigate("/")
+                // navigate("/profile/")
+                 if(onEditProfile){
+                onEditProfile()
+            }
             } catch (error) {
                 console.log(error)
             }
@@ -84,11 +87,11 @@ function EdituserProfile() {
                             />
                         </div>
                     )}
-                    <input type="text" placeholder="username" className="input  w-[400px] md:w-full"  onChange={(e)=>setUsername(e.target.value)} />
-                    <input type="text" placeholder="email" className="input w-[400px] md:w-full" onChange={(e)=>setEmail(e.target.value)} />
+                    <input type="text" placeholder="username" className="input  w-[350px] md:w-full"  onChange={(e)=>setUsername(e.target.value)} />
+                    <input type="text" placeholder="email" className="input w-[350px] md:w-full" onChange={(e)=>setEmail(e.target.value)} />
                     <div className='flex justify-center gap-2'>
-                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text btn' type='submit'> update</button>
-                    <button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white text btn'> Delete Account</button>
+                    <button className='py-2 px-2 rounded-2xl bg-[#bbbb8e] text-white text btn' type='submit'> update</button>
+                    {/* <button className='py-2 px-2 rounded-2xl bg-[#bbbb8e] text-white text btn'> DeActivate Account</button> */}
                     </div>
 
                 </div>

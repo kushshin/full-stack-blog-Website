@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { IoClose } from "react-icons/io5";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { fetchUsers } from '../Redux/userSlice.js';
+import { useDispatch,useSelector } from 'react-redux';
 import Cookie from 'js-cookie';
 import { useAuth } from '../Context/AuthContext.jsx';
 import { UserRoundPen } from 'lucide-react';
@@ -12,6 +14,14 @@ function Navbar() {
   const userId = window.localStorage.getItem('userID')
   const navigate = useNavigate()
   const { username,role } = useAuth()
+  const dispatch = useDispatch()
+  const{users} = useSelector((state)=>state.users)
+  const userName = users.filter((user)=>user._id === userId)
+const nUser =(userName.map((user)=>user.username))
+
+ useEffect(()=>{
+dispatch(fetchUsers())
+  } ,[dispatch])
 
   
   const handleLogout = () => {
@@ -28,7 +38,7 @@ function Navbar() {
       {/* LOGO */}
       <div className='flex  justify-between gap-20 md:gap-4 items-center'>
         <img src="../img/stackBits.png" alt="" className='w-32 h-16 ' />
-      <span className='text-[#a0a05f] text-[12px]'>{role === "admin" ? role : username}</span>
+      <span className='text-[#a0a05f] text-[12px]'>{role === "admin" ? role : nUser}</span>
       </div>
       {/* MOBILE MENU */}
       <div className='md:hidden flex gap-2 z-10'>

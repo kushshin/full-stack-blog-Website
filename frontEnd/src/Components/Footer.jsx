@@ -3,7 +3,7 @@ import React from 'react'
 function Footer() {
   return (
     <div>
-      <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">
+      <footer className="footer flex justify-around flex-wrap  bg-base-200  p-10 text-[#47471e]">
   <nav>
     <h6 className="footer-title">Services</h6>
     <a className="link link-hover">Branding</a>
@@ -33,7 +33,7 @@ function Footer() {
           type="text"
           placeholder="username@site.com"
           className="input input-bordered join-item" />
-        <button className="btn btn-primary join-item">Subscribe</button>
+        <button className="btn bg-[#bbbb8e] text-white hover:text-[#47471e] rounded-r-lg rounded-l-none">Subscribe</button>
       </div>
     </fieldset>
   </form>

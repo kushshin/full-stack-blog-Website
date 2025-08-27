@@ -33,9 +33,12 @@ function UserProfile() {
     const { users } = useSelector((state) => state.users);
 
     const getAllUser = posts.filter((post) => post.postedBy?._id === id)
-    const userLikes = (getAllUser.map((like)=>like.likes))
-    const userComments = (getAllUser.map((comment)=>comment.comments))
+    const userLikes = (getAllUser.map((like) => like.likes))
+    const userComments = (getAllUser.map((comment) => comment.comments))
     const getUser = users.filter((user) => user._id === id)
+    const getUserName = users.filter((user) => user._id === userId)
+    const nUser = getUserName.map((user)=>user.username)
+
 
 
 
@@ -51,7 +54,7 @@ function UserProfile() {
             <div className='md:flex mx-8  gap-4 my-4  '>
                 <div className=' w-full md:w-[250px] bg-base-100 rounded-2xl'>
                     <div>
-                        <div className=' text-center font-semibold text-[#8f8f5b] m-4'>{username.toUpperCase()}</div>
+                        <div className=' text-center font-semibold text-[#8f8f5b] m-4'>{nUser.toString().toUpperCase()}</div>
                         <ul className='flex flex-wrap justify-center gap-3 md:flex md:flex-col   m-4 p-2 md:m-8  md:gap-y-8 md:justify-start text-[12px] md:text-[15px]'>
                             <li className={`flex items-center   justify-center p-1 md:gap-2 ${activeTab === "DashBoard" ? " rounded-lg bg-[#818147] text-white" : "text-gray-600"
                                 }`} onClick={() => setActiveTab("DashBoard")}><MdDashboard /><span >DashBoard</span></li>
@@ -70,14 +73,18 @@ function UserProfile() {
                         {getUser.map((user) =>
                             <div>
                                 <div className="  bg-cover bg-center text-white  rounded-t-3xl w-[400px] h-[150px] md:w-[950px] md:h-[300px] flex flex-col items-center justify-center text-center mx-4 md:mx-8  mt-8 " style={{ backgroundImage: `url(${bgImage})` }}>
-                                    {user.profilePic ? <Link to='/EditUserProfile'><img src={user.profilePic} alt="" className='bg-cover md:object-cover   rounded-full border-2 w-[70px] h-[70px]  md:w-[100px] md:h-[100px] top-80  left-16  absolute md:top-80 md:left-[420px]' /></Link> :
+                                    {user.profilePic ?  <button onClick={() => setActiveTab("Settings")}><img src={user.profilePic} alt="" className='bg-cover md:object-cover   rounded-full border-2 w-[70px] h-[70px]  md:w-[100px] md:h-[100px] top-80  left-16  absolute md:top-80 md:left-[420px]' /> </button> :
                                         <div className=' w-[70px] h-[70px]  md:w-[100px] md:h-[100px] rounded-full border-2 bg-gray-500   top-80  left-16  absolute md:top-80 md:left-[420px] flex items-center justify-center'><span className='text-[28px] md:text-[36px] '> {user.username[0]}</span></div>}
-                                    <Link to='/EditUserProfile'><div className='absolute left-28 top-[370px] md:left-[500px] md:top-96 text-[#eef2f5] text-[15px] md:text-[20px]'> <FaCamera /></div></Link>
+                                    <button onClick={() => setActiveTab("Settings")}><div className='absolute left-28 top-[370px] md:left-[500px] md:top-96 text-[#eef2f5] text-[15px] md:text-[20px]'> <FaCamera /></div> </button>
                                 </div>
                                 <div className=' w-[400px] h-[100px] md:w-[950px]  md:h-[100px] bg-[#cfcf90] mx-4 md:mx-8 mb-8 rounded-b-3xl '>
                                     <div className='text-white  p-14 md:p-10 text-[10px] md:text-[16px]'>
-                                        <h1 className=' flex items-center gap-2'>{user.username}  <Link to='/EditUserProfile'><FiEdit2 /></Link></h1>
-                                        <h1 className=' flex items-center gap-2'>{user.email} <Link to='/EditUserProfile'><FiEdit2 /></Link></h1>
+                                        <h1 className=' flex items-center gap-2'>{user.username}  <button onClick={() => setActiveTab("Settings")}>
+                                            <FiEdit2 />
+                                        </button></h1>
+                                        <h1 className=' flex items-center gap-2'>{user.email}<button onClick={() => setActiveTab("Settings")}>
+                                            <FiEdit2 />
+                                        </button></h1>
                                     </div>
                                 </div>
                             </div>
@@ -129,8 +136,8 @@ function UserProfile() {
                                                 <IoIosHeartEmpty className="text-[17px]" />
                                             )}
                                             <span>{post.likes.length}</span>
-                                             <MdOutlineRemoveRedEye />
-                                                              <span>{post.views}</span>
+                                            <MdOutlineRemoveRedEye />
+                                            <span>{post.views}</span>
                                         </div>
                                         <div className="card-actions justify-end">
                                             {username ? (
@@ -151,8 +158,8 @@ function UserProfile() {
                             ))
                         )
                     )}
-                    {activeTab === "CreateBlog" && <WritePost  onPostCreated={() => {setActiveTab("MyPosts") ,dispatch(fetchPosts())}}/>}
-                    {activeTab === "Settings" && <EdituserProfile />}
+                    {activeTab === "CreateBlog" && <WritePost onPostCreated={() => { setActiveTab("MyPosts"), dispatch(fetchPosts()) }} />}
+                    {activeTab === "Settings" && <EdituserProfile onEditProfile={() => { setActiveTab("DashBoard"), dispatch(fetchUsers()) }} />}
                 </div>
             </div>
         </div>

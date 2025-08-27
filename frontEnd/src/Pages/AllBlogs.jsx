@@ -86,7 +86,7 @@ function AllBlogs() {
       <div className='  flex flex-col-reverse md:flex md:flex-row justify-center items-center md:items-start  gap-4  '>
         <div className='flex flex-col gap-4 '>
           {filteredCategory.map((post, id) => (
-            <div key={id} className="card lg:card-side shadow-sm mt-4 mb-4 rounded-2xl  flex  max-w-[800px]" >
+            <div key={id} className="card lg:card-side shadow-sm mt-4 mb-4 rounded-2xl " >
               <figure className="w-[400px] h-[350px] flex-shrink-0 ">
                 <img className='w-full h-full object-cover'
                   src={post.image}
@@ -112,7 +112,7 @@ function AllBlogs() {
              {username ? (
   <Link to={`/singlePost/${post._id}`}>
     <button
-      className="btn bg-[#bbbb8e] text-white"
+      className="btn bg-[#bbbb8e] text-white hover:text-[#47471e]"
       onClick={() => handleViews(post._id)}
     >
       Read More
@@ -120,9 +120,9 @@ function AllBlogs() {
   </Link>
 ) : (
   <button
-    className="btn bg-[#bbbb8e] text-white"
+    className="btn bg-[#bbbb8e] text-white hover:text-[#47471e]"
     onClick={() =>
-      toast.error("Login to see blog", {
+      toast.error("SignUp to see blog", {
         position: "top-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -169,7 +169,22 @@ function AllBlogs() {
                 <h2 className="card-title">{post.title}</h2>
                 <p>{post.shortDesc}</p>
                 <div className="card-actions justify-end">
-                  <Link to={`/singlePost/${post._id}`} ><button className="btn btn-primary">Read More</button></Link>
+              {username ? (<Link to={`/singlePost/${post._id}`} ><button className="btn bg-[#bbbb8e] text-white hover:text-[#47471e]">Read More</button></Link>):(  <button
+    className="btn bg-[#bbbb8e] text-white hover:text-[#47471e]"
+    onClick={() =>
+      toast.error("SignUp to see blog", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "light",
+      })
+    }
+  >
+    Read More
+  </button>)}
                 </div>
               </div>
             </div>
