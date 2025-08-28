@@ -31,28 +31,57 @@ const createPost = async (req, res, next) => {
 }
 
 //update post
-const updatePost = async (req, res, next) => {
-    const { title, desc, shortDesc, username, category, user } = req.body
-    console.log({ body: req.body })
-    console.log({ path: req.file.path })
+// const updatePost = async (req, res, next) => {
+//     const { title, desc, shortDesc, username, category, user } = req.body
+//     console.log({ body: req.body })
+//     console.log({ path: req.file.path })
 
-    try {
-        const editedPost = await PostModel.findByIdAndUpdate(req.params.id, {
-            title,
-            desc,
-            shortDesc,
-            image: req.file?.path,
-            categories: category,
-            username,
-            postedBy: user
-        }, { new: true })
-        console.log("Post to be saved:", editedPost);
-        await editedPost.save()
-        res.status(200).json({ success: true, message: 'post updated successfully' })
-    } catch (error) {
-        next(new ErrorResponse('failed to update post', 400))
+//     try {
+//         const editedPost = await PostModel.findByIdAndUpdate(req.params.id, {
+//             title,
+//             desc,
+//             shortDesc,
+//             image: req.file?.path,
+//             categories: category,
+//             username,
+//             postedBy: user
+//         }, { new: true })
+//         console.log("Post to be saved:", editedPost);
+//         await editedPost.save()
+//         res.status(200).json({ success: true, message: 'post updated successfully' })
+//     } catch (error) {
+//         next(new ErrorResponse('failed to update post', 400))
+//     }
+// }
+// PATCH /posts/:id
+const updatePost = async (req, res, next) => {
+  try {
+     const { title, desc, shortDesc, username} = req.body
+    const updates = {
+      title ,
+      desc ,
+       shortDesc,
+      username,
+      categories: req.body.category,
+       postedBy: req.body.user,
+       image: req.file?.path,
+    };
+
+    const updatedPost = await PostModel.findByIdAndUpdate(
+      req.params.id,
+      { $set: updates },
+      { new: true }
+    );
+
+    if (!updatedPost) {
+      return res.status(404).json({ success: false, message: "Post not found" });
     }
-}
+
+    res.status(200).json({ success: true, message: "Post updated successfully", editedPost: updatedPost });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // get all post
 

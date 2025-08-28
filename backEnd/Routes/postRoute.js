@@ -7,7 +7,7 @@ const router = Router()
 
 
 router.post('/createPost',upload.single("image"),validationMiddleware,createPost)
-router.put('/updatePost/:id',upload.single("image"),validationMiddleware,updatePost)
+router.patch('/updatePost/:id',upload.single("image"),validationMiddleware,updatePost)
 router.get('/AllPost',AllPost)
 // router.get('/getuserPosts/:id',getAllUserPosts)
 router.get('/singlePost/:id',SinglePost)

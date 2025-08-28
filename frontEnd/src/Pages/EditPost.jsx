@@ -69,7 +69,7 @@ const postID = id
                 setImage(null)
                 setCategory("")
                 setPreview("")
-                navigate('/AllBlogs')
+                navigate(`/profile/${userId}`)
         } catch (error) {
             console.log(error)
         }
