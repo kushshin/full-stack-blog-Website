@@ -95,9 +95,9 @@ function AllBlogs() {
               <div className="card-body  max-w-[380px] break-words">
                 <h4>Category : {post.categories}</h4>
                 <h2 className="card-title">{post.title}</h2>
-                <div className='flex gap-2 items-center'>
-                  <h4 className='text-[10px]'>{new Date(post.createdAt).toLocaleDateString()}</h4><span>/</span>
-                  <h5 className='text=[12px]'>BY {post.username.toUpperCase()}</h5>
+                <div className=' items-center gap-2'>
+                  <h4 className='text-[10px]'>{new Date(post.createdAt).toLocaleDateString()}</h4>
+                  <h5 className='text=[12px]'>Author- {post.username.toUpperCase()}</h5>
                 </div>
                 <p>{post.shortDesc}</p>
                 <div className='flex items-center gap-1'>
@@ -163,7 +163,8 @@ function AllBlogs() {
               <figure>
                 <img
                   src={post.image}
-                  alt="" />
+                  alt=""
+                  loading='lazy' />
               </figure>
               <div className="card-body">
                 <h2 className="card-title">{post.title}</h2>

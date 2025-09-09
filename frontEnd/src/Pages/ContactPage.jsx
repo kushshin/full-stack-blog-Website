@@ -37,7 +37,7 @@ function ContactPage() {
         
         </div>
           {/* contact page body */}
-          <div className=" bg-base-100 w-[90%] mx-auto shadow-2xl  md:flex h-[600px] my-8 ">
+          <div className=" bg-base-100 w-[90%] mx-auto shadow-2xl rounded-xl md:flex h-[600px] my-8 ">
             <div className="card-body  m-8">
               <label className="label">FULLNAME</label>
               <input type="email" className="input w-full" placeholder="Fullname" />
@@ -50,7 +50,7 @@ function ContactPage() {
               <button className="btn  bg-[#9b9b68] mt-4">SEND MESSAGE</button>
             </div>
             <div className=' hidden md:block items-center  '>
-                <img className='h-[600px]' src="https://images.unsplash.com/photo-1586769852044-692d6e3703f0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNvbnRhY3R8ZW58MHx8MHx8fDA%3D" alt="" />
+                <img className='h-[600px] rounded-r-xl' src="https://images.unsplash.com/photo-1586769852044-692d6e3703f0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTh8fGNvbnRhY3R8ZW58MHx8MHx8fDA%3D" alt="" />
             </div>
           </div>
       </div>

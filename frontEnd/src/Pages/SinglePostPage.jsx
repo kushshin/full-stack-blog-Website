@@ -162,8 +162,8 @@ const disLikePost = async (postId) => {
             )}
           </div>
           <div className='flex gap-2 items-center'>
-            <h4 className='text-[10px]'>{new Date(newPost.createdAt).toLocaleDateString()}</h4><span>/</span>
-            <h5 className='text=[12px]'>BY {newPost.username}</h5>
+            <h4 className='text-[10px]'>{new Date(newPost.createdAt).toLocaleDateString()}</h4>
+            <h5 className='text=[12px]'>author- {newPost.username}</h5>
           </div>
           <p>{newPost.shortDesc}</p>
           {/* <div className="card-actions justify-end">

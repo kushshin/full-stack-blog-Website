@@ -119,12 +119,11 @@ function UserProfile() {
                                     <div className="card-body text-[#b1b16e] ">
                                         <h4>Category : {post.categories}</h4>
                                         <h2 className="card-title">{post.title}</h2>
-                                        <div className="flex gap-2 items-center">
+                                        <div className="">
                                             <h4 className="text-[10px] text-[#bbbb8e]">
                                                 Posted On : {new Date(post.createdAt).toLocaleDateString()}
                                             </h4>
-                                            <span>/</span>
-                                            <h5 className="text=[12px]">BY {post.username.toUpperCase()}</h5>
+                                            <h5 className="text=[12px]">author- {post.username.toUpperCase()}</h5>
                                         </div>
                                         <p className="text-[24px] font-semibold">{post.shortDesc}</p>
                                         <div className="flex items-center gap-1">

@@ -32,14 +32,16 @@ function AllPosts({filteredPosts}) {
   <figure  className="w-[400px] h-[350px] flex-shrink-0 ">
     <img className='w-full h-full object-cover'
       src={post.image}
-      alt="Album" />
+      alt="Album"
+      loading='lazy' />
+      
   </figure>
   <div className="card-body text-[#b1b16e]">
     <h4>Category : {post.categories}</h4>
     <h2 className="card-title">{post.title}</h2>
-    <div className='flex gap-2 items-center'>
-    <h4 className='text-[10px] text-[#bbbb8e] '>Posted On : {new Date(post.createdAt).toLocaleDateString()}</h4><span>/</span>
-    <h5 className='text=[12px]'>BY {post.username.toUpperCase()}</h5>
+    <div className=''>
+    <h4 className='text-[10px] text-[#bbbb8e] '>Posted On : {new Date(post.createdAt).toLocaleDateString()}</h4>
+    <h5 className='text=[12px]'>Author- {post.username.toUpperCase()}</h5>
     </div>  
     <p className='text-[32px] font-semibold'>{post.shortDesc}</p>
     {/* <p>{post.desc}</p> */}
