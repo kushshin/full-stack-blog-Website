@@ -14,7 +14,7 @@ dotenv.config()
 const PORT = process.env.PORT || 3000
 
 app.use(cors(
-    { origin: "https://full-stack-blog-website-omega.vercel.app",
+    { origin: "https://full-stack-blog-website-eta.vercel.app",
     // { origin: true,
         credentials: true
     }))
