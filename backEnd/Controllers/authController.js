@@ -56,7 +56,7 @@ const loginUser = async(req,res,next)=>{
             const token = jwt.sign({id : user._id, email : user.email, role: user.role, username : user.username},process.env.SECRET_KEY)
     
             // res.cookie("Token",token)
-            res.cookie("Token",token)
+            res.cookie("Token",token,{httpOnly: true,secure:true, sameSite:'None'})
             res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,IsBlocked : user.IsBlocked,success :true, message : 'user loggedIn successfully!! '})
     } catch (error) {
         return next (new ErrorResponse( 'user login failed',400 ))
@@ -87,7 +87,7 @@ const adminLogin = async(req,res,next)=>{
             const admintoken = jwt.sign({id : user._id, email : user.email, role: user.role, username : user.username},process.env.ADMIN_SECRET_KEY)
     
             // res.cookie("Token",token)
-            res.cookie("adminToken",admintoken)
+            res.cookie("adminToken",admintoken,{httpOnly: true,secure:true, sameSite:'None'})
             res.status(200).json({userid : user._id , username : user.username, email : user.email , role : user.role,success :true, message : 'admin loggedIn successfully!! '})
     } catch (error) {
       return next(new ErrorResponse('admin login failed',500))

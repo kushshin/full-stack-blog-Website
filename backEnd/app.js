@@ -14,8 +14,10 @@ dotenv.config()
 const PORT = process.env.PORT || 3000
 
 app.use(cors(
-    { origin: "https://full-stack-blog-website-eta.vercel.app",
-    // { origin: true,
+    {
+        origin: "https://full-stack-blog-website-eta.vercel.app",
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+        // { origin: true,
         credentials: true
     }))
 app.use(express.json())
@@ -27,19 +29,19 @@ app.use('/api/auth', authRouter)
 app.use('/api/post', postRouter)
 app.use('/api/user', userRouter)
 
-    
-    
-   app.get("/check-token", (req, res) => {
-  console.log("Token from cookie:", req.cookies.Token);
-  res.send("Check terminal for cookie token.");
+
+
+app.get("/check-token", (req, res) => {
+    console.log("Token from cookie:", req.cookies.Token);
+    res.send("Check terminal for cookie token.");
 });
-    
-    DBconnection()
+
+DBconnection()
 
 
 
 app.use(errorHandler)
 
-app.listen(PORT,()=>{
-console.log(`server is running on ${PORT}`)
+app.listen(PORT, () => {
+    console.log(`server is running on ${PORT}`)
 })
