@@ -37,13 +37,20 @@ function WritePost({onPostCreated}) {
     ],
   };
 
+  const stripHtml = (html) => {
+  let div = document.createElement("div");
+  div.innerHTML = html;
+  return div.textContent || div.innerText || "";
+};
+
     const handlePost = async (e) => {
         try {
             e.preventDefault()
             const postDetails = new FormData()
             postDetails.append("title", title)
             postDetails.append("shortDesc", shortDesc)
-            postDetails.append("desc", desc)
+            postDetails.append("desc", stripHtml(desc));
+            // postDetails.append("desc", desc)
             postDetails.append("image", image)
             postDetails.append("categories", category)
             postDetails.append("postedBy", user)
