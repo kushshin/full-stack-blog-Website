@@ -15,9 +15,9 @@ const PORT = process.env.PORT || 3000
 
 app.use(cors(
     
-        // origin: "https://full-stack-blog-website-eta.vercel.app",
-        // methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-        { origin: true,
+        {origin: "https://full-stack-blog-website-eta.vercel.app",
+        methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+        // { origin: true,
         credentials: true
     }))
 app.use(express.json())
