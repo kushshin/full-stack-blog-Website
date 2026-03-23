@@ -33,7 +33,7 @@ function AllPosts({filteredPosts}) {
     <img className='w-full h-full object-cover'
       src={post.image}
       alt="Album"
-      loading='lazy' />
+       />
       
   </figure>
   <div className="card-body text-[#b1b16e]">
