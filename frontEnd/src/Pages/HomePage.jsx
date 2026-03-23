@@ -1,7 +1,7 @@
-import React, { useEffect, useState,lazy,Suspense } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import bgImage from '/img/bgcoverImage.jpg'
-// import AllPosts from './AllPosts'
+import AllPosts from './AllPosts'
 import RecentPosts from './RecentPosts'
 import { FaFacebookSquare } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux'
 import { useAuth } from '../Context/AuthContext'
 import { toast,Bounce  } from 'react-toastify'
 
-const AllPosts = lazy(()=>import('./AllPosts'))
+// const AllPosts = lazy(()=>import('./AllPosts'))
 
 function HomePage() {
   const { posts, loading, error } = useSelector((state) => state.posts);
@@ -47,7 +47,7 @@ function HomePage() {
         <h1 className='text-center text-[#b1b16e] font-semibold '>ALL POSTS</h1>
         <div className=' flex flex-col-reverse justify-center md:flex-row  md:justify-around  px-8 m-4'>
           <div className=' flex-1 md:mr-8'>
-            <div className='box2'><Suspense fallback={<h3>Loading....</h3>}><AllPosts filteredPosts={filteredPosts} /></Suspense></div>
+            <div className='box2'><AllPosts filteredPosts={filteredPosts} /></div>
             <div className=' box2 block md:hidden'><RecentPosts posts={posts} /></div>
              <div className='  box2 relative block md:hidden'>
               <img className=" md:w-[300px] rounded-2xl" src="https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8dGVjaHxlbnwwfHwwfHx8MA%3D%3D" alt="" />
