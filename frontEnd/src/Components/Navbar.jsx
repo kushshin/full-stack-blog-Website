@@ -47,8 +47,8 @@ dispatch(fetchUsers())
        {/* {username? <Link to={`/profile/${userId}`}><UserRoundPen className='text-[#a0a05f]' /></Link>:""} */}
         <div className='cursor-pointer ' onClick={() => setOpen((prev) => !prev)}>   {open ?
           <div className='text-[24px]'><IoClose /></div> : <div className='text-[24px]'><GiHamburgerMenu /></div>}</div>
-        <div className={`w-full bg-[#F5F5DC] h-[400px] absolute top-16 transition-all ease-in-out ${open ? '-right-0' : '-right-[100%]'} `}>
-          <div className=' flex flex-col items-center gap-8 text-[#bbbb8e] mt-4'>
+        <div className={`w-0 bg-[#F5F5DC] right-0 h-[400px] absolute top-16 transition-all  duration-500   ${open ? 'w-full' : 'w-0'} `}>
+          <div className={`flex opacity-0 flex-col items-center gap-8 text-[#bbbb8e] mt-4 transition-all  duration-500 ${open ? 'opacity-75':'opacity-0'}`}>
             <a href="/" className='text-[#a0a05f]'>Home </a>
             <a href="/about">About Us</a>
             {/* {username ? <a href="/writePost">Write </a> : ""} */}
@@ -61,6 +61,18 @@ dispatch(fetchUsers())
               <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
           </div>
         </div>
+        {/* <div className={`w-full bg-[#F5F5DC] h-[400px] absolute top-16 transition-all ease-in-out  ${open ? '-right-0' : '-right-[100%]'} `}>
+          <div className=' flex flex-col items-center gap-8 text-[#bbbb8e] mt-4'>
+            <a href="/" className='text-[#a0a05f]'>Home </a>
+            <a href="/about">About Us</a>
+            <a href="/AllBlogs">Blog </a>
+            <a href="/contact">Contact</a>
+          {role === "admin" ?   <a href="/AdmindashBoard">DashBoard</a> : null}
+            {username ?
+              <a href="/"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' onClick={handleLogout}>Logout</button></a> :
+              <a href="/login"><button className='py-2 px-4 rounded-2xl bg-[#bbbb8e] text-white' >Login</button></a>}
+          </div>
+        </div> */}
       </div>
       {/* DESKTOP MENU */}
       <div className=' hidden md:flex tems-center gap-4 text-[#bbbb8e]'>
